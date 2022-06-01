@@ -2,22 +2,6 @@ SHELL:=/usr/bin/env bash
 
 .DEFAULT_GOAL:=help
 
-Srv ?= push
-BinPath ?= bin/service.goim.$(Srv)
-CmdPath ?= apps/$(Srv)/cmd/main.go
-CfgPath ?= apps/$(Srv)/configs
-IMAGE ?= goim/$(Srv)
-VERSION ?= $(shell git describe --exact-match --tags 2> /dev/null || git rev-parse --abbrev-ref HEAD)
-
-## env
-export ROCKETMQ_GO_LOG_LEVEL=warn
-
-## jwt
-export JWT_SECRET="goim"
-
-## enable config center
-export ENABLE_CONFIG_CENTER=true
-
 ##################################################
 # Development                                    #
 ##################################################
@@ -50,10 +34,6 @@ gen-protoc: ## Run protoc command to generate pb code.
 .PHONY: tools-install
 tools-install: ## Install tools.
 	go get -u github.com/golang/protobuf/protoc-gen-go
-
-.PHONY: generate
-generate: ## generate code by run go generate
-	go generate ./...
 
 ##################################################
 # General                                        #
