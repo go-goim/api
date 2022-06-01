@@ -4,7 +4,7 @@ package v1
 
 import (
 	context "context"
-	response "github.com/go-goim/goim/api/transport/response"
+	response "github.com/go-goim/api/transport/response"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -138,7 +138,7 @@ var SendMessager_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/message/v1/message.proto",
+	Metadata: "message/v1/message.proto",
 }
 
 // PushMessagerClient is the client API for PushMessager service.
@@ -224,7 +224,7 @@ var PushMessager_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/message/v1/message.proto",
+	Metadata: "message/v1/message.proto",
 }
 
 // OfflineMessageClient is the client API for OfflineMessage service.
@@ -310,5 +310,5 @@ var OfflineMessage_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/message/v1/message.proto",
+	Metadata: "message/v1/message.proto",
 }

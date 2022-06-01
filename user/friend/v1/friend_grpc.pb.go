@@ -4,7 +4,7 @@ package v1
 
 import (
 	context "context"
-	response "github.com/go-goim/goim/api/transport/response"
+	response "github.com/go-goim/api/transport/response"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -354,5 +354,5 @@ var FriendService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/user/friend/v1/friend.proto",
+	Metadata: "user/friend/v1/friend.proto",
 }
