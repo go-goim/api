@@ -29,7 +29,7 @@ test: ## Run test against code.
 .PHONY: gen-protoc
 gen-protoc: ## Run protoc command to generate pb code.
 	# call gen_proto.sh
-	./gen_proto.sh .
+	./gen_proto.sh
 
 .PHONY: tools-install
 tools-install: ## Install tools.
