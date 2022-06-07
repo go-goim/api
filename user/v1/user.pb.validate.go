@@ -239,8 +239,8 @@ func (m *UserInternal) validate(all bool) error {
 		// no validation rules for Phone
 	}
 
-	if m.AgentId != nil {
-		// no validation rules for AgentId
+	if m.PushServerIp != nil {
+		// no validation rules for PushServerIp
 	}
 
 	if len(errors) > 0 {
@@ -353,8 +353,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for LoginStatus
 
-	if m.AgentId != nil {
-		// no validation rules for AgentId
+	if m.ConnectUrl != nil {
+		// no validation rules for ConnectUrl
 	}
 
 	if len(errors) > 0 {

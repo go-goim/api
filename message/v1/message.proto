@@ -60,11 +60,10 @@ message MqMessage {
 message PushMessageReq {
   string from_user = 1;
   string to_user = 2;
-  string agent_id = 3;
-  PushMessageType push_message_type = 4;
-  MessageContentType content_type = 5;
-  string content = 6;
-  string msg_seq = 7;
+  PushMessageType push_message_type = 3;
+  MessageContentType content_type = 4;
+  string content = 5;
+  string msg_seq = 6;
 }
 
 service PushMessager {

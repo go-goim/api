@@ -26,8 +26,8 @@ message UserInternal {
   optional string email = 3;
   optional string phone = 4;
   string avatar = 5;
-  // AgentID only valid when user already login.
-  optional string agent_id = 6;
+  // push_server_ip only valid when user already login.
+  optional string push_server_ip = 6;
   string password = 7;
   // 0: first time login, need connect to push server
   // 1: already login, no need connect to push server
@@ -43,8 +43,8 @@ message User {
   string email = 3;
   string phone = 4;
   string avatar = 5;
-  // AgentID only valid when user already login.
-  optional string agent_id = 6;
+  // ws_url is url of user need connect via ws or tcp
+  optional string connect_url = 6;
   // 0: first time login, need connect to push server
   // 1: already login, no need connect to push server
   LoginStatus login_status = 8;

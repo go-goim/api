@@ -9,7 +9,7 @@ func (x *UserInternal) ToUser() *User {
 		Email:       x.GetEmail(),
 		Phone:       x.GetPhone(),
 		Avatar:      x.GetAvatar(),
-		AgentId:     x.AgentId,
+		ConnectUrl:  x.PushServerIp,
 		LoginStatus: x.GetLoginStatus(),
 	}
 }
