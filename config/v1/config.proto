@@ -18,8 +18,15 @@ message Server {
 }
 
 message Service {
-	string name = 1 [(validate.rules).string.prefix= "service.goim"];
-	string version = 2 [(validate.rules).string.min_len=1];
+	// name has three parts:
+	// 1. constant value: "goim"
+	// 2. service type: ["service", "worker", "admin"]
+	// 3. service name: any string
+	// parts joined by "."
+	// example: "goim.service.chat"
+	string name = 1 [(validate.rules).string = {pattern: "^goim\\.(service|worker|admin)\\.[a-zA-Z0-9_]+$"}];
+	// version must match like "vx.y.z"
+	string version = 2 [(validate.rules).string = {pattern: "^v[0-9]+\\.[0-9]+\\.[0-9]+$"}];
 	optional Server http = 3;
 	optional Server grpc = 4;
 	Log log = 5;
@@ -28,11 +35,12 @@ message Service {
 	MQ mq = 8;
 	MySQL mysql = 9;
 	// services name
-	string gatewayService = 10 [(validate.rules).string.const= "service.goim.gateway"];
-	string userService = 11 [(validate.rules).string.const= "service.goim.user"];
-	string pushService = 12 [(validate.rules).string.const= "service.goim.push"];
-	string storeService = 13 [(validate.rules).string.const= "service.goim.store"];
-	string msgService = 14 [(validate.rules).string.const= "service.goim.msg"];
+	string gatewayService = 10;
+	string userService = 11;
+	string pushService = 12;
+	string storeWorker = 13;
+	string msgService = 14;
+	string msgWorker = 15;
 }
 
 enum Level {
