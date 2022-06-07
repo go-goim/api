@@ -213,10 +213,10 @@ func (m *Service) validate(all bool) error {
 
 	var errors []error
 
-	if !strings.HasPrefix(m.GetName(), "service.goim") {
+	if !_Service_Name_Pattern.MatchString(m.GetName()) {
 		err := ServiceValidationError{
 			field:  "Name",
-			reason: "value does not have prefix \"service.goim\"",
+			reason: "value does not match regex pattern \"^goim\\\\.(service|worker|admin)\\\\.[a-zA-Z0-9_]+$\"",
 		}
 		if !all {
 			return err
@@ -224,10 +224,10 @@ func (m *Service) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetVersion()) < 1 {
+	if !_Service_Version_Pattern.MatchString(m.GetVersion()) {
 		err := ServiceValidationError{
 			field:  "Version",
-			reason: "value length must be at least 1 runes",
+			reason: "value does not match regex pattern \"^v[0-9]+\\\\.[0-9]+\\\\.[0-9]+$\"",
 		}
 		if !all {
 			return err
@@ -353,60 +353,17 @@ func (m *Service) validate(all bool) error {
 		}
 	}
 
-	if m.GetGatewayService() != "service.goim.gateway" {
-		err := ServiceValidationError{
-			field:  "GatewayService",
-			reason: "value must equal service.goim.gateway",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for GatewayService
 
-	if m.GetUserService() != "service.goim.user" {
-		err := ServiceValidationError{
-			field:  "UserService",
-			reason: "value must equal service.goim.user",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for UserService
 
-	if m.GetPushService() != "service.goim.push" {
-		err := ServiceValidationError{
-			field:  "PushService",
-			reason: "value must equal service.goim.push",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for PushService
 
-	if m.GetStoreService() != "service.goim.store" {
-		err := ServiceValidationError{
-			field:  "StoreService",
-			reason: "value must equal service.goim.store",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for StoreWorker
 
-	if m.GetMsgService() != "service.goim.msg" {
-		err := ServiceValidationError{
-			field:  "MsgService",
-			reason: "value must equal service.goim.msg",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for MsgService
+
+	// no validation rules for MsgWorker
 
 	if m.Http != nil {
 
@@ -550,6 +507,10 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ServiceValidationError{}
+
+var _Service_Name_Pattern = regexp.MustCompile("^goim\\.(service|worker|admin)\\.[a-zA-Z0-9_]+$")
+
+var _Service_Version_Pattern = regexp.MustCompile("^v[0-9]+\\.[0-9]+\\.[0-9]+$")
 
 // Validate checks the field values on Log with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error

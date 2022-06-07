@@ -445,8 +445,6 @@ func (m *PushMessageReq) validate(all bool) error {
 
 	// no validation rules for ToUser
 
-	// no validation rules for AgentId
-
 	// no validation rules for PushMessageType
 
 	// no validation rules for ContentType
