@@ -120,6 +120,7 @@ message GetFriendRequestResponse {
 
 message QueryFriendRequestListRequest {
   string uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  FriendRequestStatus status = 2 [(validate.rules).enum.defined_only = true];
 }
 
 message QueryFriendRequestListResponse {

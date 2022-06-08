@@ -1699,6 +1699,17 @@ func (m *QueryFriendRequestListRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if _, ok := FriendRequestStatus_name[int32(m.GetStatus())]; !ok {
+		err := QueryFriendRequestListRequestValidationError{
+			field:  "Status",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if len(errors) > 0 {
 		return QueryFriendRequestListRequestMultiError(errors)
 	}
