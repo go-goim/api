@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/envoyproxy/protoc-gen-validate v0.6.7
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.2
 	google.golang.org/grpc v1.47.0
 	google.golang.org/protobuf v1.28.0
 )
@@ -17,5 +17,5 @@ require (
 	golang.org/x/sys v0.0.0-20210816183151-1e6c022a8912 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
