@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package api.user.group.v1;
+option go_package = "github.com/go-goim/api/user/group/v1";
+
+import "user/v1/user.proto";
+
+message Group {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  GroupType type = 4;
+  GroupStatus status = 5;
+  string created_by = 6;
+  repeated string members = 7;
+  int64 created_at = 8;
+  int64 updated_at = 9;
+}
+
+
+enum GroupType {
+  Normal = 0;
+  // more types
+}
+
+enum GroupStatus {
+  Active = 0;
+  Silent = 1;
+  // more statuses
+}
+
+message Empty {}
+
+service GroupService {
+  rpc GetGroup(Empty) returns (Group);
+  rpc CreateGroup(Empty) returns (Group);
+  rpc UpdateGroup(Empty) returns (Group);
+  rpc DeleteGroup(Empty) returns (Empty);
+  rpc GetGroupMembers(Empty) returns (user.v1.UserList);
+  rpc AddGroupMember(Empty) returns (Empty);
+  rpc RemoveGroupMember(Empty) returns (Empty);
+}

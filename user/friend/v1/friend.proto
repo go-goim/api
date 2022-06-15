@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-package api.user.v1;
-option go_package = "user/friend/v1;v1";
+package api.user.friend.v1;
+option go_package = "github.com/go-goim/api/user/friend/v1";
 
 import "validate/validate.proto";
 

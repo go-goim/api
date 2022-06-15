@@ -41,7 +41,7 @@ func NewFriendServiceClient(cc grpc.ClientConnInterface) FriendServiceClient {
 
 func (c *friendServiceClient) AddFriend(ctx context.Context, in *AddFriendRequest, opts ...grpc.CallOption) (*AddFriendResponse, error) {
 	out := new(AddFriendResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/AddFriend", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/AddFriend", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (c *friendServiceClient) AddFriend(ctx context.Context, in *AddFriendReques
 
 func (c *friendServiceClient) ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestReq, opts ...grpc.CallOption) (*response.BaseResponse, error) {
 	out := new(response.BaseResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/ConfirmFriendRequest", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/ConfirmFriendRequest", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (c *friendServiceClient) ConfirmFriendRequest(ctx context.Context, in *Conf
 
 func (c *friendServiceClient) GetFriendRequest(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*GetFriendRequestResponse, error) {
 	out := new(GetFriendRequestResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/GetFriendRequest", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/GetFriendRequest", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *friendServiceClient) GetFriendRequest(ctx context.Context, in *BaseFrie
 
 func (c *friendServiceClient) QueryFriendRequestList(ctx context.Context, in *QueryFriendRequestListRequest, opts ...grpc.CallOption) (*QueryFriendRequestListResponse, error) {
 	out := new(QueryFriendRequestListResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/QueryFriendRequestList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/QueryFriendRequestList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (c *friendServiceClient) QueryFriendRequestList(ctx context.Context, in *Qu
 
 func (c *friendServiceClient) UpdateFriendStatus(ctx context.Context, in *UpdateFriendStatusRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
 	out := new(response.BaseResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/UpdateFriendStatus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/UpdateFriendStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *friendServiceClient) UpdateFriendStatus(ctx context.Context, in *Update
 
 func (c *friendServiceClient) IsFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
 	out := new(response.BaseResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/IsFriend", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/IsFriend", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (c *friendServiceClient) IsFriend(ctx context.Context, in *BaseFriendReques
 
 func (c *friendServiceClient) GetFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*GetFriendResponse, error) {
 	out := new(GetFriendResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/GetFriend", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/GetFriend", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (c *friendServiceClient) GetFriend(ctx context.Context, in *BaseFriendReque
 
 func (c *friendServiceClient) QueryFriendList(ctx context.Context, in *QueryFriendListRequest, opts ...grpc.CallOption) (*QueryFriendListResponse, error) {
 	out := new(QueryFriendListResponse)
-	err := c.cc.Invoke(ctx, "/api.user.v1.FriendService/QueryFriendList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/QueryFriendList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -179,7 +179,7 @@ func _FriendService_AddFriend_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/AddFriend",
+		FullMethod: "/api.user.friend.v1.FriendService/AddFriend",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).AddFriend(ctx, req.(*AddFriendRequest))
@@ -197,7 +197,7 @@ func _FriendService_ConfirmFriendRequest_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/ConfirmFriendRequest",
+		FullMethod: "/api.user.friend.v1.FriendService/ConfirmFriendRequest",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).ConfirmFriendRequest(ctx, req.(*ConfirmFriendRequestReq))
@@ -215,7 +215,7 @@ func _FriendService_GetFriendRequest_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/GetFriendRequest",
+		FullMethod: "/api.user.friend.v1.FriendService/GetFriendRequest",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).GetFriendRequest(ctx, req.(*BaseFriendRequest))
@@ -233,7 +233,7 @@ func _FriendService_QueryFriendRequestList_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/QueryFriendRequestList",
+		FullMethod: "/api.user.friend.v1.FriendService/QueryFriendRequestList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).QueryFriendRequestList(ctx, req.(*QueryFriendRequestListRequest))
@@ -251,7 +251,7 @@ func _FriendService_UpdateFriendStatus_Handler(srv interface{}, ctx context.Cont
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/UpdateFriendStatus",
+		FullMethod: "/api.user.friend.v1.FriendService/UpdateFriendStatus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).UpdateFriendStatus(ctx, req.(*UpdateFriendStatusRequest))
@@ -269,7 +269,7 @@ func _FriendService_IsFriend_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/IsFriend",
+		FullMethod: "/api.user.friend.v1.FriendService/IsFriend",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).IsFriend(ctx, req.(*BaseFriendRequest))
@@ -287,7 +287,7 @@ func _FriendService_GetFriend_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/GetFriend",
+		FullMethod: "/api.user.friend.v1.FriendService/GetFriend",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).GetFriend(ctx, req.(*BaseFriendRequest))
@@ -305,7 +305,7 @@ func _FriendService_QueryFriendList_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.user.v1.FriendService/QueryFriendList",
+		FullMethod: "/api.user.friend.v1.FriendService/QueryFriendList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FriendServiceServer).QueryFriendList(ctx, req.(*QueryFriendListRequest))
@@ -317,7 +317,7 @@ func _FriendService_QueryFriendList_Handler(srv interface{}, ctx context.Context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var FriendService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.user.v1.FriendService",
+	ServiceName: "api.user.friend.v1.FriendService",
 	HandlerType: (*FriendServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package api.user.session.v1;
+option go_package = "github.com/go-goim/api/user/session/v1";
+
+// define session type and status
+enum SessionType {
+  UserToUser = 0;
+  GroupChat = 1;
+}
+
+enum SessionStatus {
+  Normal = 0;
+  Deleted = 1;
+}
