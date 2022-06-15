@@ -5,7 +5,7 @@ option go_package = "github.com/go-goim/api/user/session/v1";
 
 // define session type and status
 enum SessionType {
-  UserToUser = 0;
+  SingleChat = 0;
   GroupChat = 1;
 }
 
