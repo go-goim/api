@@ -28,6 +28,11 @@ func NewBaseResponseWithMessage(code Code, msg string) *BaseResponse {
 }
 
 func NewBaseResponseWithError(err error) *BaseResponse {
+	// check err is BaseResponse
+	if br, ok := err.(*BaseResponse); ok {
+		return br
+	}
+
 	return &BaseResponse{
 		Code:    Code_InternalError,
 		Reason:  Code_InternalError.String(),

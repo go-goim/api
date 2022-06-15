@@ -230,6 +230,8 @@ func (m *SendMessageResp) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for SessionId
+
 	// no validation rules for MsgSeq
 
 	if len(errors) > 0 {
@@ -342,6 +344,8 @@ func (m *MqMessage) validate(all bool) error {
 
 	// no validation rules for Content
 
+	// no validation rules for SessionId
+
 	if len(errors) > 0 {
 		return MqMessageMultiError(errors)
 	}
@@ -453,6 +457,8 @@ func (m *PushMessageReq) validate(all bool) error {
 
 	// no validation rules for MsgSeq
 
+	// no validation rules for SessionId
+
 	if len(errors) > 0 {
 		return PushMessageReqMultiError(errors)
 	}
@@ -562,6 +568,8 @@ func (m *BriefMessage) validate(all bool) error {
 	// no validation rules for Content
 
 	// no validation rules for MsgSeq
+
+	// no validation rules for SessionId
 
 	if len(errors) > 0 {
 		return BriefMessageMultiError(errors)

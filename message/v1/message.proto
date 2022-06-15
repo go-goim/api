@@ -26,6 +26,7 @@ message SendMessageReq {
 message SendMessageResp {
   transport.response.BaseResponse response = 1;
   // MsgSeq is unique seq of a message
+  int64 session_id = 2;
   string msg_seq = 3;
 }
 
@@ -54,6 +55,7 @@ message MqMessage {
   PushMessageType push_message_type = 3;
   MessageContentType content_type = 4;
   string content = 5;
+  int64 session_id = 6;
 }
 
 // PushMessage use for push a message to persistence connection server
@@ -64,6 +66,7 @@ message PushMessageReq {
   MessageContentType content_type = 4;
   string content = 5;
   string msg_seq = 6;
+  int64 session_id = 7;
 }
 
 service PushMessager {
@@ -77,6 +80,7 @@ message BriefMessage {
   MessageContentType content_type = 3;
   string content = 4;
   string msg_seq = 5;
+  int64 session_id = 6;
 }
 
 message QueryOfflineMessageReq {
