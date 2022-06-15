@@ -29,6 +29,10 @@ type FriendServiceClient interface {
 	IsFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
 	GetFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*GetFriendResponse, error)
 	QueryFriendList(ctx context.Context, in *QueryFriendListRequest, opts ...grpc.CallOption) (*QueryFriendListResponse, error)
+	// check send message ability
+	// check friend relationship and is there a session. If is friend but no session, try to create a session.
+	// if session_type is group chat, check if the group is exist and is the member of the group.
+	CheckSendMessageAbility(ctx context.Context, in *CheckSendMessageAbilityRequest, opts ...grpc.CallOption) (*CheckSendMessageAbilityResponse, error)
 }
 
 type friendServiceClient struct {
@@ -111,6 +115,15 @@ func (c *friendServiceClient) QueryFriendList(ctx context.Context, in *QueryFrie
 	return out, nil
 }
 
+func (c *friendServiceClient) CheckSendMessageAbility(ctx context.Context, in *CheckSendMessageAbilityRequest, opts ...grpc.CallOption) (*CheckSendMessageAbilityResponse, error) {
+	out := new(CheckSendMessageAbilityResponse)
+	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/CheckSendMessageAbility", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FriendServiceServer is the server API for FriendService service.
 // All implementations must embed UnimplementedFriendServiceServer
 // for forward compatibility
@@ -125,6 +138,10 @@ type FriendServiceServer interface {
 	IsFriend(context.Context, *BaseFriendRequest) (*response.BaseResponse, error)
 	GetFriend(context.Context, *BaseFriendRequest) (*GetFriendResponse, error)
 	QueryFriendList(context.Context, *QueryFriendListRequest) (*QueryFriendListResponse, error)
+	// check send message ability
+	// check friend relationship and is there a session. If is friend but no session, try to create a session.
+	// if session_type is group chat, check if the group is exist and is the member of the group.
+	CheckSendMessageAbility(context.Context, *CheckSendMessageAbilityRequest) (*CheckSendMessageAbilityResponse, error)
 	mustEmbedUnimplementedFriendServiceServer()
 }
 
@@ -155,6 +172,9 @@ func (UnimplementedFriendServiceServer) GetFriend(context.Context, *BaseFriendRe
 }
 func (UnimplementedFriendServiceServer) QueryFriendList(context.Context, *QueryFriendListRequest) (*QueryFriendListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryFriendList not implemented")
+}
+func (UnimplementedFriendServiceServer) CheckSendMessageAbility(context.Context, *CheckSendMessageAbilityRequest) (*CheckSendMessageAbilityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckSendMessageAbility not implemented")
 }
 func (UnimplementedFriendServiceServer) mustEmbedUnimplementedFriendServiceServer() {}
 
@@ -313,6 +333,24 @@ func _FriendService_QueryFriendList_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FriendService_CheckSendMessageAbility_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckSendMessageAbilityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendServiceServer).CheckSendMessageAbility(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.user.friend.v1.FriendService/CheckSendMessageAbility",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendServiceServer).CheckSendMessageAbility(ctx, req.(*CheckSendMessageAbilityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FriendService_ServiceDesc is the grpc.ServiceDesc for FriendService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -351,6 +389,10 @@ var FriendService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryFriendList",
 			Handler:    _FriendService_QueryFriendList_Handler,
+		},
+		{
+			MethodName: "CheckSendMessageAbility",
+			Handler:    _FriendService_CheckSendMessageAbility_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

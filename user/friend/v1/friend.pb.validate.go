@@ -1956,3 +1956,275 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryFriendRequestListResponseValidationError{}
+
+// Validate checks the field values on CheckSendMessageAbilityRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CheckSendMessageAbilityRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CheckSendMessageAbilityRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// CheckSendMessageAbilityRequestMultiError, or nil if none found.
+func (m *CheckSendMessageAbilityRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CheckSendMessageAbilityRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if l := utf8.RuneCountInString(m.GetFromUid()); l < 20 || l > 24 {
+		err := CheckSendMessageAbilityRequestValidationError{
+			field:  "FromUid",
+			reason: "value length must be between 20 and 24 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if l := utf8.RuneCountInString(m.GetToUid()); l < 20 || l > 24 {
+		err := CheckSendMessageAbilityRequestValidationError{
+			field:  "ToUid",
+			reason: "value length must be between 20 and 24 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := v1.SessionType_name[int32(m.GetSessionType())]; !ok {
+		err := CheckSendMessageAbilityRequestValidationError{
+			field:  "SessionType",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return CheckSendMessageAbilityRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CheckSendMessageAbilityRequestMultiError is an error wrapping multiple
+// validation errors returned by CheckSendMessageAbilityRequest.ValidateAll()
+// if the designated constraints aren't met.
+type CheckSendMessageAbilityRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CheckSendMessageAbilityRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CheckSendMessageAbilityRequestMultiError) AllErrors() []error { return m }
+
+// CheckSendMessageAbilityRequestValidationError is the validation error
+// returned by CheckSendMessageAbilityRequest.Validate if the designated
+// constraints aren't met.
+type CheckSendMessageAbilityRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CheckSendMessageAbilityRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CheckSendMessageAbilityRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CheckSendMessageAbilityRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CheckSendMessageAbilityRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CheckSendMessageAbilityRequestValidationError) ErrorName() string {
+	return "CheckSendMessageAbilityRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CheckSendMessageAbilityRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCheckSendMessageAbilityRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CheckSendMessageAbilityRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CheckSendMessageAbilityRequestValidationError{}
+
+// Validate checks the field values on CheckSendMessageAbilityResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CheckSendMessageAbilityResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CheckSendMessageAbilityResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// CheckSendMessageAbilityResponseMultiError, or nil if none found.
+func (m *CheckSendMessageAbilityResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CheckSendMessageAbilityResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetResponse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CheckSendMessageAbilityResponseValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CheckSendMessageAbilityResponseValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CheckSendMessageAbilityResponseValidationError{
+				field:  "Response",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.SessionId != nil {
+		// no validation rules for SessionId
+	}
+
+	if len(errors) > 0 {
+		return CheckSendMessageAbilityResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CheckSendMessageAbilityResponseMultiError is an error wrapping multiple
+// validation errors returned by CheckSendMessageAbilityResponse.ValidateAll()
+// if the designated constraints aren't met.
+type CheckSendMessageAbilityResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CheckSendMessageAbilityResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CheckSendMessageAbilityResponseMultiError) AllErrors() []error { return m }
+
+// CheckSendMessageAbilityResponseValidationError is the validation error
+// returned by CheckSendMessageAbilityResponse.Validate if the designated
+// constraints aren't met.
+type CheckSendMessageAbilityResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CheckSendMessageAbilityResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CheckSendMessageAbilityResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CheckSendMessageAbilityResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CheckSendMessageAbilityResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CheckSendMessageAbilityResponseValidationError) ErrorName() string {
+	return "CheckSendMessageAbilityResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CheckSendMessageAbilityResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCheckSendMessageAbilityResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CheckSendMessageAbilityResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CheckSendMessageAbilityResponseValidationError{}

@@ -8,8 +8,4 @@ enum SessionType {
   SingleChat = 0;
   GroupChat = 1;
 }
-
-enum SessionStatus {
-  Normal = 0;
-  Deleted = 1;
-}
+// more session message type

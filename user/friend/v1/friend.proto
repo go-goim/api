@@ -7,6 +7,8 @@ import "validate/validate.proto";
 
 import "transport/response/response.proto";
 
+import "user/session/v1/session.proto";
+
 message Friend {
   string uid = 1;
   string friend_uid = 2;
@@ -128,6 +130,18 @@ message QueryFriendRequestListResponse {
   repeated FriendRequest friend_request_list = 2;
 }
 
+// CheckSendMessageAbilityRequest is the request data for checking send message ability.
+message CheckSendMessageAbilityRequest {
+  string from_uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  string to_uid = 2 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  user.session.v1.SessionType session_type = 3 [(validate.rules).enum.defined_only = true];
+}
+
+message CheckSendMessageAbilityResponse {
+  transport.response.BaseResponse response = 1;
+  optional int64 session_id = 2;
+}
+
 service FriendService {
   // friend request
   rpc AddFriend(AddFriendRequest) returns (AddFriendResponse);
@@ -140,4 +154,8 @@ service FriendService {
   rpc IsFriend(BaseFriendRequest) returns (transport.response.BaseResponse);
   rpc GetFriend(BaseFriendRequest) returns (GetFriendResponse);
   rpc QueryFriendList(QueryFriendListRequest) returns (QueryFriendListResponse);
+  // check send message ability
+  // check friend relationship and is there a session. If is friend but no session, try to create a session.
+  // if session_type is group chat, check if the group is exist and is the member of the group.
+  rpc CheckSendMessageAbility(CheckSendMessageAbilityRequest) returns (CheckSendMessageAbilityResponse);
 }
