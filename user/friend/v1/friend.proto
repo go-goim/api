@@ -134,7 +134,7 @@ message QueryFriendRequestListResponse {
 message CheckSendMessageAbilityRequest {
   string from_uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
   string to_uid = 2 [(validate.rules).string = {min_len: 20, max_len: 24}];
-  user.session.v1.SessionType session_type = 3 [(validate.rules).enum.defined_only = true];
+  user.session.v1.SessionType session_type = 3;
 }
 
 message CheckSendMessageAbilityResponse {

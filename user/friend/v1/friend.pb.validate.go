@@ -2001,16 +2001,7 @@ func (m *CheckSendMessageAbilityRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if _, ok := v1.SessionType_name[int32(m.GetSessionType())]; !ok {
-		err := CheckSendMessageAbilityRequestValidationError{
-			field:  "SessionType",
-			reason: "value must be one of the defined enum values",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for SessionType
 
 	if len(errors) > 0 {
 		return CheckSendMessageAbilityRequestMultiError(errors)
