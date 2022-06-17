@@ -31,6 +31,29 @@ gen-protoc: ## Run protoc command to generate pb code.
 	# call gen_proto.sh
 	./gen_proto.sh
 
+.PHONY: protoc
+
+COLOR := "\e[1;36m%s\e[0m"
+
+PROTO_ROOT := .
+PROTO_IGNORE := ./third_party
+PROTO_FILES = $(shell find $(PROTO_ROOT) -path $(PROTO_IGNORE) -prune -o -type f -name "*.proto" -print)
+PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
+PROTO_IMPORTS := --proto_path=. --proto_path=./third_party
+PROTO_OPTIONS := --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. --validate_out=lang=go,paths=source_relative:.
+
+define NEWLINE
+
+
+endef
+
+protoc: ## Generate pb code.
+	@printf $(COLOR) "Generating protobuf code..."
+# Run protoc command to generate pb code.
+	$(foreach PROTO_DIR,$(PROTO_DIRS),\
+		protoc $(PROTO_IMPORTS) $(PROTO_OPTIONS) $(PROTO_DIR)*.proto \
+	$(NEWLINE))
+
 .PHONY: tools-install
 tools-install: ## Install tools.
 	go get -u github.com/golang/protobuf/protoc-gen-go
