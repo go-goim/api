@@ -345,13 +345,17 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for Name
 
-	// no validation rules for Email
-
-	// no validation rules for Phone
-
 	// no validation rules for Avatar
 
 	// no validation rules for LoginStatus
+
+	if m.Email != nil {
+		// no validation rules for Email
+	}
+
+	if m.Phone != nil {
+		// no validation rules for Phone
+	}
 
 	if m.ConnectUrl != nil {
 		// no validation rules for ConnectUrl

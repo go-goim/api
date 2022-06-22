@@ -53,6 +53,7 @@ protoc: ## Generate pb code.
 	$(foreach PROTO_DIR,$(PROTO_DIRS),\
 		protoc $(PROTO_IMPORTS) $(PROTO_OPTIONS) $(PROTO_DIR)*.proto \
 	$(NEWLINE))
+	@printf $(COLOR) "Done."
 
 .PHONY: tools-install
 tools-install: ## Install tools.

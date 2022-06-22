@@ -40,8 +40,8 @@ message UserInternal {
 message User {
   string uid = 1;
   string name = 2;
-  string email = 3;
-  string phone = 4;
+  optional string email = 3;
+  optional string phone = 4;
   string avatar = 5;
   // ws_url is url of user need connect via ws or tcp
   optional string connect_url = 6;

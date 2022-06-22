@@ -5,22 +5,20 @@ option go_package = "github.com/go-goim/api/user/group/v1";
 
 import "user/v1/user.proto";
 
+import "transport/response/response.proto";
+
 message Group {
-  int64 id = 1;
-  string name = 2;
-  string description = 3;
-  GroupType type = 4;
-  GroupStatus status = 5;
-  string created_by = 6;
-  repeated string members = 7;
-  int64 created_at = 8;
-  int64 updated_at = 9;
-}
-
-
-enum GroupType {
-  Normal = 0;
-  // more types
+  int64 id = 1; // use as session id
+  string gid = 2;
+  string name = 3;
+  string description = 4;
+  string avatar = 5;
+  string owner_uid = 6;
+  optional GroupMember owner = 7;
+  repeated GroupMember members = 8;
+  int32 max_members = 9;
+  int32 member_count = 10;
+  GroupStatus status = 11;
 }
 
 enum GroupStatus {
@@ -29,14 +27,122 @@ enum GroupStatus {
   // more statuses
 }
 
-message Empty {}
+message GroupMember {
+  int64 id = 1; // use as session id
+  string gid = 2;
+  string uid = 3;
+  Group group = 4;
+  optional user.v1.User user = 5;
+  enum Status {
+    StatusActive = 0;
+    StatusSilent = 1;
+    // more statuses
+  }
+  Status status = 6;
+ enum Type {
+    TypeOwner = 0;
+    TypeMember = 1;
+    // more types
+  }
+  Type type = 7;
+}
+
+// GetGroup
+
+message GetGroupRequest {
+  string gid = 1;
+  bool with_members = 2;
+}
+
+message GetGroupResponse {
+  transport.response.BaseResponse response = 1;
+  Group group = 2;
+}
+
+// ListGroups
+
+message ListGroupsRequest {
+  // list all groups no matter user is member or owner.
+  string uid = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ListGroupsResponse {
+  transport.response.BaseResponse response = 1;
+  repeated Group groups = 2;
+}
+
+// CreateGroup
+
+message CreateGroupRequest {
+  string name = 1;
+  string description = 2;
+  string avatar = 3;
+  string owner_uid = 4;
+  repeated string members_uid = 5;
+}
+
+message CreateGroupResponse {
+  transport.response.BaseResponse response = 1;
+  Group group = 2;
+}
+
+// UpdateGroup
+
+message UpdateGroupRequest {
+  string gid = 1;
+  string name = 2;
+  string description = 3;
+  string avatar = 4;
+  string uid = 5; // current user id
+}
+
+message UpdateGroupResponse {
+  transport.response.BaseResponse response = 1;
+  Group group = 2;
+}
+
+// DeleteGroup
+
+message DeleteGroupRequest {
+  string gid = 1;
+  string uid = 2;
+}
+
+// AddGroupMember
+
+message AddGroupMemberRequest {
+  string gid = 1;
+  repeated string uid = 2;
+}
+
+message AddGroupMemberResponse {
+  transport.response.BaseResponse response = 1;
+  int32 added = 2;
+}
+
+
+// RemoveGroupMember
+
+message RemoveGroupMemberRequest {
+  string gid = 1;
+  repeated string uid = 2;
+  string owner_uid = 3;
+}
+
+message RemoveGroupMemberResponse {
+  transport.response.BaseResponse response = 1;
+  int32 removed = 2;
+}
+
 
 service GroupService {
-  rpc GetGroup(Empty) returns (Group);
-  rpc CreateGroup(Empty) returns (Group);
-  rpc UpdateGroup(Empty) returns (Group);
-  rpc DeleteGroup(Empty) returns (Empty);
-  rpc GetGroupMembers(Empty) returns (user.v1.UserList);
-  rpc AddGroupMember(Empty) returns (Empty);
-  rpc RemoveGroupMember(Empty) returns (Empty);
+  rpc GetGroup(GetGroupRequest) returns (GetGroupResponse);
+  rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse);
+  rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse);
+  rpc UpdateGroup(UpdateGroupRequest) returns (UpdateGroupResponse);
+  rpc DeleteGroup(DeleteGroupRequest) returns (transport.response.BaseResponse);
+  rpc AddGroupMember(AddGroupMemberRequest) returns (AddGroupMemberResponse);
+  rpc RemoveGroupMember(RemoveGroupMemberRequest) returns (RemoveGroupMemberResponse);
 }
