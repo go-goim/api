@@ -6,8 +6,8 @@ func (x *UserInternal) ToUser() *User {
 	return &User{
 		Uid:         x.GetUid(),
 		Name:        x.GetName(),
-		Email:       x.GetEmail(),
-		Phone:       x.GetPhone(),
+		Email:       x.Email,
+		Phone:       x.Phone,
 		Avatar:      x.GetAvatar(),
 		ConnectUrl:  x.PushServerIp,
 		LoginStatus: x.GetLoginStatus(),
