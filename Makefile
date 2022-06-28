@@ -1,6 +1,10 @@
 SHELL:=/usr/bin/env bash
 
 .DEFAULT_GOAL:=help
+COLOR := "\e[1;36m%s\e[0m"
+
+# Note this is just for the tour!
+export BUF_USER=yusank
 
 ##################################################
 # Development                                    #
@@ -26,14 +30,7 @@ test: ## Run test against code.
 
 ##@ Generate
 
-.PHONY: gen-protoc
-gen-protoc: ## Run protoc command to generate pb code.
-	# call gen_proto.sh
-	./gen_proto.sh
-
 .PHONY: protoc
-
-COLOR := "\e[1;36m%s\e[0m"
 
 PROTO_ROOT := .
 PROTO_IGNORE := ./third_party
@@ -58,6 +55,12 @@ protoc: ## Generate pb code.
 .PHONY: tools-install
 tools-install: ## Install tools.
 	go get -u github.com/golang/protobuf/protoc-gen-go
+
+.PHONY: buf
+buf: ## run buf generate command.
+	@printf $(COLOR) "Generating buf code..."
+	buf generate
+	@printf $(COLOR) "Done."
 
 ##################################################
 # General                                        #

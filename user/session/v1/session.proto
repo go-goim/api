@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package api.user.session.v1;
+
 option go_package = "github.com/go-goim/api/user/session/v1";
 
 // define session type and status
@@ -9,3 +10,4 @@ enum SessionType {
   GroupChat = 1;
 }
 // more session message type
+

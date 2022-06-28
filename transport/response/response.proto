@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package api.transport.response;
+
 option go_package = "github.com/go-goim/api/transport/response";
 
 enum Code {
@@ -35,7 +36,6 @@ enum Code {
   NotGroupMember = 50003;
   NotGroupOwner = 50004;
   GroupLimitExceed = 50005;
-
 }
 
 // BaseResponse use as define response code and message

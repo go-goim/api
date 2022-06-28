@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 package api.message.v1;
-option go_package = "github.com/go-goim/api/message/v1";
-
-import "validate/validate.proto";
 
 import "transport/response/response.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/go-goim/api/message/v1";
 
 enum MessageContentType {
   UnknownContentType = 0;
@@ -19,7 +19,10 @@ message SendMessageReq {
   string from_user = 1 [(validate.rules).string.min_len = 20];
   string to_user = 2 [(validate.rules).string.min_len = 20];
   MessageContentType content_type = 3 [(validate.rules).enum.defined_only = true];
-  string content = 4 [(validate.rules).string = {min_len: 1, max_len: 1024}];
+  string content = 4 [(validate.rules).string = {
+    min_len: 1,
+    max_len: 1024
+  }];
 }
 
 // SendMessageResp is response body for sendMessage
@@ -86,9 +89,12 @@ message BriefMessage {
 message QueryOfflineMessageReq {
   string user_id = 1 [(validate.rules).string.min_len = 20];
   string last_msg_seq = 2 [(validate.rules).string.min_len = 10];
-  bool onlyCount  = 3;
+  bool onlyCount = 3;
   int32 page = 4;
-  int32 page_size = 5 [(validate.rules).int32 = {gte: 1, lte: 100}];
+  int32 page_size = 5 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 100
+  }];
 }
 
 message QueryOfflineMessageResp {

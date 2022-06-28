@@ -1,13 +1,12 @@
 syntax = "proto3";
 
 package api.user.friend.v1;
-option go_package = "github.com/go-goim/api/user/friend/v1";
-
-import "validate/validate.proto";
 
 import "transport/response/response.proto";
-
 import "user/session/v1/session.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/go-goim/api/user/friend/v1";
 
 message Friend {
   string uid = 1;
@@ -42,7 +41,10 @@ message GetFriendResponse {
 }
 
 message QueryFriendListRequest {
-  string uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  string uid = 1 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
 }
 
 message QueryFriendListResponse {
@@ -77,13 +79,25 @@ enum FriendRequestStatus {
 }
 
 message AddFriendRequest {
-  string uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
-  string friend_uid = 2 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  string uid = 1 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
+  string friend_uid = 2 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
 }
 
 message BaseFriendRequest {
-  string uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
-  string friend_uid = 2 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  string uid = 1 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
+  string friend_uid = 2 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
 }
 
 message AddFriendResponse {
@@ -105,8 +119,11 @@ enum AddFriendStatus {
 }
 
 message ConfirmFriendRequestReq {
-  string uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
-  int64 friend_request_id = 2[(validate.rules).int64.gt = 0];
+  string uid = 1 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
+  int64 friend_request_id = 2 [(validate.rules).int64.gt = 0];
   ConfirmFriendRequestAction action = 3 [(validate.rules).enum.defined_only = true];
 }
 
@@ -121,7 +138,10 @@ message GetFriendRequestResponse {
 }
 
 message QueryFriendRequestListRequest {
-  string uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  string uid = 1 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
   FriendRequestStatus status = 2 [(validate.rules).enum.defined_only = true];
 }
 
@@ -132,8 +152,14 @@ message QueryFriendRequestListResponse {
 
 // CheckSendMessageAbilityRequest is the request data for checking send message ability.
 message CheckSendMessageAbilityRequest {
-  string from_uid = 1 [(validate.rules).string = {min_len: 20, max_len: 24}];
-  string to_uid = 2 [(validate.rules).string = {min_len: 20, max_len: 24}];
+  string from_uid = 1 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
+  string to_uid = 2 [(validate.rules).string = {
+    min_len: 20,
+    max_len: 24
+  }];
   user.session.v1.SessionType session_type = 3;
 }
 

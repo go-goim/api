@@ -1,14 +1,14 @@
 syntax = "proto3";
 
 package api.user.group.v1;
-option go_package = "github.com/go-goim/api/user/group/v1";
-
-import "user/v1/user.proto";
 
 import "transport/response/response.proto";
+import "user/v1/user.proto";
+
+option go_package = "github.com/go-goim/api/user/group/v1";
 
 message Group {
-  int64 id = 1; // use as session id
+  int64 id = 1;
   string gid = 2;
   string name = 3;
   string description = 4;
@@ -39,7 +39,7 @@ message GroupMember {
     // more statuses
   }
   Status status = 6;
- enum Type {
+  enum Type {
     TypeOwner = 0;
     TypeMember = 1;
     // more types
@@ -122,7 +122,6 @@ message AddGroupMemberResponse {
   int32 added = 2;
 }
 
-
 // RemoveGroupMember
 
 message RemoveGroupMemberRequest {
@@ -135,7 +134,6 @@ message RemoveGroupMemberResponse {
   transport.response.BaseResponse response = 1;
   int32 removed = 2;
 }
-
 
 service GroupService {
   rpc GetGroup(GetGroupRequest) returns (GetGroupResponse);
