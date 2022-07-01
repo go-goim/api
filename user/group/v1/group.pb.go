@@ -295,10 +295,9 @@ type GroupMember struct {
 	Id     int64              `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // use as session id
 	Gid    string             `protobuf:"bytes,2,opt,name=gid,proto3" json:"gid,omitempty"`
 	Uid    string             `protobuf:"bytes,3,opt,name=uid,proto3" json:"uid,omitempty"`
-	Group  *Group             `protobuf:"bytes,4,opt,name=group,proto3" json:"group,omitempty"`
-	User   *v1.User           `protobuf:"bytes,5,opt,name=user,proto3,oneof" json:"user,omitempty"`
-	Status GroupMember_Status `protobuf:"varint,6,opt,name=status,proto3,enum=api.user.group.v1.GroupMember_Status" json:"status,omitempty"`
-	Type   GroupMember_Type   `protobuf:"varint,7,opt,name=type,proto3,enum=api.user.group.v1.GroupMember_Type" json:"type,omitempty"`
+	User   *v1.User           `protobuf:"bytes,4,opt,name=user,proto3,oneof" json:"user,omitempty"`
+	Status GroupMember_Status `protobuf:"varint,5,opt,name=status,proto3,enum=api.user.group.v1.GroupMember_Status" json:"status,omitempty"`
+	Type   GroupMember_Type   `protobuf:"varint,6,opt,name=type,proto3,enum=api.user.group.v1.GroupMember_Type" json:"type,omitempty"`
 }
 
 func (x *GroupMember) Reset() {
@@ -352,13 +351,6 @@ func (x *GroupMember) GetUid() string {
 		return x.Uid
 	}
 	return ""
-}
-
-func (x *GroupMember) GetGroup() *Group {
-	if x != nil {
-		return x.Group
-	}
-	return nil
 }
 
 func (x *GroupMember) GetUser() *v1.User {
@@ -620,7 +612,7 @@ type CreateGroupRequest struct {
 	Description string   `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	Avatar      string   `protobuf:"bytes,3,opt,name=avatar,proto3" json:"avatar,omitempty"`
 	OwnerUid    string   `protobuf:"bytes,4,opt,name=owner_uid,json=ownerUid,proto3" json:"owner_uid,omitempty"`
-	MembersUid  []string `protobuf:"bytes,5,rep,name=members_uid,json=membersUid,proto3" json:"members_uid,omitempty"`
+	MembersUid  []string `protobuf:"bytes,5,rep,name=members_uid,json=membersUid,proto3" json:"members_uid,omitempty"` // todo: limit to small number
 }
 
 func (x *CreateGroupRequest) Reset() {
@@ -1196,21 +1188,18 @@ var file_user_group_v1_group_proto_rawDesc = []byte{
 	0x0b, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1e, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x73, 0x65, 0x72,
 	0x2e, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x53,
 	0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x08, 0x0a,
-	0x06, 0x5f, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x22, 0xf3, 0x02, 0x0a, 0x0b, 0x47, 0x72, 0x6f, 0x75,
+	0x06, 0x5f, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x22, 0xc3, 0x02, 0x0a, 0x0b, 0x47, 0x72, 0x6f, 0x75,
 	0x70, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x67, 0x69, 0x64, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x67, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69, 0x64,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x2e, 0x0a, 0x05, 0x67,
-	0x72, 0x6f, 0x75, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x47,
-	0x72, 0x6f, 0x75, 0x70, 0x52, 0x05, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x12, 0x2a, 0x0a, 0x04, 0x75,
-	0x73, 0x65, 0x72, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x2a, 0x0a, 0x04, 0x75,
+	0x73, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x61, 0x70, 0x69, 0x2e,
 	0x75, 0x73, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x48, 0x00, 0x52, 0x04,
 	0x75, 0x73, 0x65, 0x72, 0x88, 0x01, 0x01, 0x12, 0x3d, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
-	0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x25, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x73,
+	0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x25, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x73,
 	0x65, 0x72, 0x2e, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x6f, 0x75,
 	0x70, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06,
-	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x37, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x07,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x37, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x06,
 	0x20, 0x01, 0x28, 0x0e, 0x32, 0x23, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
 	0x67, 0x72, 0x6f, 0x75, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x4d, 0x65,
 	0x6d, 0x62, 0x65, 0x72, 0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x22,
@@ -1402,39 +1391,38 @@ var file_user_group_v1_group_proto_depIdxs = []int32{
 	4,  // 0: api.user.group.v1.Group.owner:type_name -> api.user.group.v1.GroupMember
 	4,  // 1: api.user.group.v1.Group.members:type_name -> api.user.group.v1.GroupMember
 	0,  // 2: api.user.group.v1.Group.status:type_name -> api.user.group.v1.GroupStatus
-	3,  // 3: api.user.group.v1.GroupMember.group:type_name -> api.user.group.v1.Group
-	18, // 4: api.user.group.v1.GroupMember.user:type_name -> api.user.v1.User
-	1,  // 5: api.user.group.v1.GroupMember.status:type_name -> api.user.group.v1.GroupMember.Status
-	2,  // 6: api.user.group.v1.GroupMember.type:type_name -> api.user.group.v1.GroupMember.Type
-	19, // 7: api.user.group.v1.GetGroupResponse.response:type_name -> api.transport.response.BaseResponse
-	3,  // 8: api.user.group.v1.GetGroupResponse.group:type_name -> api.user.group.v1.Group
-	19, // 9: api.user.group.v1.ListGroupsResponse.response:type_name -> api.transport.response.BaseResponse
-	3,  // 10: api.user.group.v1.ListGroupsResponse.groups:type_name -> api.user.group.v1.Group
-	19, // 11: api.user.group.v1.CreateGroupResponse.response:type_name -> api.transport.response.BaseResponse
-	3,  // 12: api.user.group.v1.CreateGroupResponse.group:type_name -> api.user.group.v1.Group
-	19, // 13: api.user.group.v1.UpdateGroupResponse.response:type_name -> api.transport.response.BaseResponse
-	3,  // 14: api.user.group.v1.UpdateGroupResponse.group:type_name -> api.user.group.v1.Group
-	19, // 15: api.user.group.v1.AddGroupMemberResponse.response:type_name -> api.transport.response.BaseResponse
-	19, // 16: api.user.group.v1.RemoveGroupMemberResponse.response:type_name -> api.transport.response.BaseResponse
-	5,  // 17: api.user.group.v1.GroupService.GetGroup:input_type -> api.user.group.v1.GetGroupRequest
-	7,  // 18: api.user.group.v1.GroupService.ListGroups:input_type -> api.user.group.v1.ListGroupsRequest
-	9,  // 19: api.user.group.v1.GroupService.CreateGroup:input_type -> api.user.group.v1.CreateGroupRequest
-	11, // 20: api.user.group.v1.GroupService.UpdateGroup:input_type -> api.user.group.v1.UpdateGroupRequest
-	13, // 21: api.user.group.v1.GroupService.DeleteGroup:input_type -> api.user.group.v1.DeleteGroupRequest
-	14, // 22: api.user.group.v1.GroupService.AddGroupMember:input_type -> api.user.group.v1.AddGroupMemberRequest
-	16, // 23: api.user.group.v1.GroupService.RemoveGroupMember:input_type -> api.user.group.v1.RemoveGroupMemberRequest
-	6,  // 24: api.user.group.v1.GroupService.GetGroup:output_type -> api.user.group.v1.GetGroupResponse
-	8,  // 25: api.user.group.v1.GroupService.ListGroups:output_type -> api.user.group.v1.ListGroupsResponse
-	10, // 26: api.user.group.v1.GroupService.CreateGroup:output_type -> api.user.group.v1.CreateGroupResponse
-	12, // 27: api.user.group.v1.GroupService.UpdateGroup:output_type -> api.user.group.v1.UpdateGroupResponse
-	19, // 28: api.user.group.v1.GroupService.DeleteGroup:output_type -> api.transport.response.BaseResponse
-	15, // 29: api.user.group.v1.GroupService.AddGroupMember:output_type -> api.user.group.v1.AddGroupMemberResponse
-	17, // 30: api.user.group.v1.GroupService.RemoveGroupMember:output_type -> api.user.group.v1.RemoveGroupMemberResponse
-	24, // [24:31] is the sub-list for method output_type
-	17, // [17:24] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	18, // 3: api.user.group.v1.GroupMember.user:type_name -> api.user.v1.User
+	1,  // 4: api.user.group.v1.GroupMember.status:type_name -> api.user.group.v1.GroupMember.Status
+	2,  // 5: api.user.group.v1.GroupMember.type:type_name -> api.user.group.v1.GroupMember.Type
+	19, // 6: api.user.group.v1.GetGroupResponse.response:type_name -> api.transport.response.BaseResponse
+	3,  // 7: api.user.group.v1.GetGroupResponse.group:type_name -> api.user.group.v1.Group
+	19, // 8: api.user.group.v1.ListGroupsResponse.response:type_name -> api.transport.response.BaseResponse
+	3,  // 9: api.user.group.v1.ListGroupsResponse.groups:type_name -> api.user.group.v1.Group
+	19, // 10: api.user.group.v1.CreateGroupResponse.response:type_name -> api.transport.response.BaseResponse
+	3,  // 11: api.user.group.v1.CreateGroupResponse.group:type_name -> api.user.group.v1.Group
+	19, // 12: api.user.group.v1.UpdateGroupResponse.response:type_name -> api.transport.response.BaseResponse
+	3,  // 13: api.user.group.v1.UpdateGroupResponse.group:type_name -> api.user.group.v1.Group
+	19, // 14: api.user.group.v1.AddGroupMemberResponse.response:type_name -> api.transport.response.BaseResponse
+	19, // 15: api.user.group.v1.RemoveGroupMemberResponse.response:type_name -> api.transport.response.BaseResponse
+	5,  // 16: api.user.group.v1.GroupService.GetGroup:input_type -> api.user.group.v1.GetGroupRequest
+	7,  // 17: api.user.group.v1.GroupService.ListGroups:input_type -> api.user.group.v1.ListGroupsRequest
+	9,  // 18: api.user.group.v1.GroupService.CreateGroup:input_type -> api.user.group.v1.CreateGroupRequest
+	11, // 19: api.user.group.v1.GroupService.UpdateGroup:input_type -> api.user.group.v1.UpdateGroupRequest
+	13, // 20: api.user.group.v1.GroupService.DeleteGroup:input_type -> api.user.group.v1.DeleteGroupRequest
+	14, // 21: api.user.group.v1.GroupService.AddGroupMember:input_type -> api.user.group.v1.AddGroupMemberRequest
+	16, // 22: api.user.group.v1.GroupService.RemoveGroupMember:input_type -> api.user.group.v1.RemoveGroupMemberRequest
+	6,  // 23: api.user.group.v1.GroupService.GetGroup:output_type -> api.user.group.v1.GetGroupResponse
+	8,  // 24: api.user.group.v1.GroupService.ListGroups:output_type -> api.user.group.v1.ListGroupsResponse
+	10, // 25: api.user.group.v1.GroupService.CreateGroup:output_type -> api.user.group.v1.CreateGroupResponse
+	12, // 26: api.user.group.v1.GroupService.UpdateGroup:output_type -> api.user.group.v1.UpdateGroupResponse
+	19, // 27: api.user.group.v1.GroupService.DeleteGroup:output_type -> api.transport.response.BaseResponse
+	15, // 28: api.user.group.v1.GroupService.AddGroupMember:output_type -> api.user.group.v1.AddGroupMemberResponse
+	17, // 29: api.user.group.v1.GroupService.RemoveGroupMember:output_type -> api.user.group.v1.RemoveGroupMemberResponse
+	23, // [23:30] is the sub-list for method output_type
+	16, // [16:23] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_user_group_v1_group_proto_init() }

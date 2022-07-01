@@ -31,20 +31,19 @@ message GroupMember {
   int64 id = 1; // use as session id
   string gid = 2;
   string uid = 3;
-  Group group = 4;
-  optional user.v1.User user = 5;
+  optional user.v1.User user = 4;
   enum Status {
     StatusActive = 0;
     StatusSilent = 1;
     // more statuses
   }
-  Status status = 6;
+  Status status = 5;
   enum Type {
     TypeOwner = 0;
     TypeMember = 1;
     // more types
   }
-  Type type = 7;
+  Type type = 6;
 }
 
 // GetGroup
@@ -80,7 +79,7 @@ message CreateGroupRequest {
   string description = 2;
   string avatar = 3;
   string owner_uid = 4;
-  repeated string members_uid = 5;
+  repeated string members_uid = 5; // todo: limit to small number
 }
 
 message CreateGroupResponse {
