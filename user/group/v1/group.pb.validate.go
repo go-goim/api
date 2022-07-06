@@ -1804,8 +1804,6 @@ func (m *RemoveGroupMemberRequest) validate(all bool) error {
 
 	// no validation rules for Gid
 
-	// no validation rules for OwnerUid
-
 	if len(errors) > 0 {
 		return RemoveGroupMemberRequestMultiError(errors)
 	}

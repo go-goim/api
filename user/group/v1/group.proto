@@ -126,7 +126,6 @@ message AddGroupMemberResponse {
 message RemoveGroupMemberRequest {
   string gid = 1;
   repeated string uid = 2;
-  string owner_uid = 3;
 }
 
 message RemoveGroupMemberResponse {
