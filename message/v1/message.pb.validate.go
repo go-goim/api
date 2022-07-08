@@ -79,6 +79,17 @@ func (m *SendMessageReq) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if _, ok := v1.SessionType_name[int32(m.GetSessionType())]; !ok {
+		err := SendMessageReqValidationError{
+			field:  "SessionType",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if _, ok := MessageContentType_name[int32(m.GetContentType())]; !ok {
 		err := SendMessageReqValidationError{
 			field:  "ContentType",
@@ -90,10 +101,10 @@ func (m *SendMessageReq) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if l := utf8.RuneCountInString(m.GetContent()); l < 1 || l > 1024 {
+	if l := utf8.RuneCountInString(m.GetContent()); l < 1 || l > 4096 {
 		err := SendMessageReqValidationError{
 			field:  "Content",
-			reason: "value length must be between 1 and 1024 runes, inclusive",
+			reason: "value length must be between 1 and 4096 runes, inclusive",
 		}
 		if !all {
 			return err
@@ -338,7 +349,7 @@ func (m *MqMessage) validate(all bool) error {
 
 	// no validation rules for ToUser
 
-	// no validation rules for PushMessageType
+	// no validation rules for SessionType
 
 	// no validation rules for ContentType
 
@@ -449,7 +460,7 @@ func (m *PushMessageReq) validate(all bool) error {
 
 	// no validation rules for ToUser
 
-	// no validation rules for PushMessageType
+	// no validation rules for SessionType
 
 	// no validation rules for ContentType
 
@@ -458,6 +469,10 @@ func (m *PushMessageReq) validate(all bool) error {
 	// no validation rules for MsgSeq
 
 	// no validation rules for SessionId
+
+	if m.ToGroup != nil {
+		// no validation rules for ToGroup
+	}
 
 	if len(errors) > 0 {
 		return PushMessageReqMultiError(errors)

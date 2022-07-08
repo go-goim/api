@@ -15,298 +15,172 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// SendMessagerClient is the client API for SendMessager service.
+// PushMessageServiceClient is the client API for PushMessageService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SendMessagerClient interface {
-	// SendMessage send message to one or multi users/channels
-	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*SendMessageResp, error)
-	// Broadcast send message to all online user
-	Broadcast(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*SendMessageResp, error)
-}
-
-type sendMessagerClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewSendMessagerClient(cc grpc.ClientConnInterface) SendMessagerClient {
-	return &sendMessagerClient{cc}
-}
-
-func (c *sendMessagerClient) SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*SendMessageResp, error) {
-	out := new(SendMessageResp)
-	err := c.cc.Invoke(ctx, "/api.message.v1.SendMessager/SendMessage", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *sendMessagerClient) Broadcast(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*SendMessageResp, error) {
-	out := new(SendMessageResp)
-	err := c.cc.Invoke(ctx, "/api.message.v1.SendMessager/Broadcast", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// SendMessagerServer is the server API for SendMessager service.
-// All implementations must embed UnimplementedSendMessagerServer
-// for forward compatibility
-type SendMessagerServer interface {
-	// SendMessage send message to one or multi users/channels
-	SendMessage(context.Context, *SendMessageReq) (*SendMessageResp, error)
-	// Broadcast send message to all online user
-	Broadcast(context.Context, *SendMessageReq) (*SendMessageResp, error)
-	mustEmbedUnimplementedSendMessagerServer()
-}
-
-// UnimplementedSendMessagerServer must be embedded to have forward compatible implementations.
-type UnimplementedSendMessagerServer struct {
-}
-
-func (UnimplementedSendMessagerServer) SendMessage(context.Context, *SendMessageReq) (*SendMessageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
-}
-func (UnimplementedSendMessagerServer) Broadcast(context.Context, *SendMessageReq) (*SendMessageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Broadcast not implemented")
-}
-func (UnimplementedSendMessagerServer) mustEmbedUnimplementedSendMessagerServer() {}
-
-// UnsafeSendMessagerServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SendMessagerServer will
-// result in compilation errors.
-type UnsafeSendMessagerServer interface {
-	mustEmbedUnimplementedSendMessagerServer()
-}
-
-func RegisterSendMessagerServer(s grpc.ServiceRegistrar, srv SendMessagerServer) {
-	s.RegisterService(&SendMessager_ServiceDesc, srv)
-}
-
-func _SendMessager_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendMessageReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SendMessagerServer).SendMessage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.message.v1.SendMessager/SendMessage",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SendMessagerServer).SendMessage(ctx, req.(*SendMessageReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SendMessager_Broadcast_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendMessageReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SendMessagerServer).Broadcast(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.message.v1.SendMessager/Broadcast",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SendMessagerServer).Broadcast(ctx, req.(*SendMessageReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// SendMessager_ServiceDesc is the grpc.ServiceDesc for SendMessager service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var SendMessager_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.message.v1.SendMessager",
-	HandlerType: (*SendMessagerServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "SendMessage",
-			Handler:    _SendMessager_SendMessage_Handler,
-		},
-		{
-			MethodName: "Broadcast",
-			Handler:    _SendMessager_Broadcast_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "message/v1/message.proto",
-}
-
-// PushMessagerClient is the client API for PushMessager service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type PushMessagerClient interface {
+type PushMessageServiceClient interface {
 	PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*response.BaseResponse, error)
 }
 
-type pushMessagerClient struct {
+type pushMessageServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPushMessagerClient(cc grpc.ClientConnInterface) PushMessagerClient {
-	return &pushMessagerClient{cc}
+func NewPushMessageServiceClient(cc grpc.ClientConnInterface) PushMessageServiceClient {
+	return &pushMessageServiceClient{cc}
 }
 
-func (c *pushMessagerClient) PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*response.BaseResponse, error) {
+func (c *pushMessageServiceClient) PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*response.BaseResponse, error) {
 	out := new(response.BaseResponse)
-	err := c.cc.Invoke(ctx, "/api.message.v1.PushMessager/PushMessage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.message.v1.PushMessageService/PushMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PushMessagerServer is the server API for PushMessager service.
-// All implementations must embed UnimplementedPushMessagerServer
+// PushMessageServiceServer is the server API for PushMessageService service.
+// All implementations must embed UnimplementedPushMessageServiceServer
 // for forward compatibility
-type PushMessagerServer interface {
+type PushMessageServiceServer interface {
 	PushMessage(context.Context, *PushMessageReq) (*response.BaseResponse, error)
-	mustEmbedUnimplementedPushMessagerServer()
+	mustEmbedUnimplementedPushMessageServiceServer()
 }
 
-// UnimplementedPushMessagerServer must be embedded to have forward compatible implementations.
-type UnimplementedPushMessagerServer struct {
+// UnimplementedPushMessageServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedPushMessageServiceServer struct {
 }
 
-func (UnimplementedPushMessagerServer) PushMessage(context.Context, *PushMessageReq) (*response.BaseResponse, error) {
+func (UnimplementedPushMessageServiceServer) PushMessage(context.Context, *PushMessageReq) (*response.BaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PushMessage not implemented")
 }
-func (UnimplementedPushMessagerServer) mustEmbedUnimplementedPushMessagerServer() {}
+func (UnimplementedPushMessageServiceServer) mustEmbedUnimplementedPushMessageServiceServer() {}
 
-// UnsafePushMessagerServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PushMessagerServer will
+// UnsafePushMessageServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PushMessageServiceServer will
 // result in compilation errors.
-type UnsafePushMessagerServer interface {
-	mustEmbedUnimplementedPushMessagerServer()
+type UnsafePushMessageServiceServer interface {
+	mustEmbedUnimplementedPushMessageServiceServer()
 }
 
-func RegisterPushMessagerServer(s grpc.ServiceRegistrar, srv PushMessagerServer) {
-	s.RegisterService(&PushMessager_ServiceDesc, srv)
+func RegisterPushMessageServiceServer(s grpc.ServiceRegistrar, srv PushMessageServiceServer) {
+	s.RegisterService(&PushMessageService_ServiceDesc, srv)
 }
 
-func _PushMessager_PushMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PushMessageService_PushMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PushMessageReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PushMessagerServer).PushMessage(ctx, in)
+		return srv.(PushMessageServiceServer).PushMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.message.v1.PushMessager/PushMessage",
+		FullMethod: "/api.message.v1.PushMessageService/PushMessage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PushMessagerServer).PushMessage(ctx, req.(*PushMessageReq))
+		return srv.(PushMessageServiceServer).PushMessage(ctx, req.(*PushMessageReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// PushMessager_ServiceDesc is the grpc.ServiceDesc for PushMessager service.
+// PushMessageService_ServiceDesc is the grpc.ServiceDesc for PushMessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var PushMessager_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.message.v1.PushMessager",
-	HandlerType: (*PushMessagerServer)(nil),
+var PushMessageService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.message.v1.PushMessageService",
+	HandlerType: (*PushMessageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "PushMessage",
-			Handler:    _PushMessager_PushMessage_Handler,
+			Handler:    _PushMessageService_PushMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "message/v1/message.proto",
 }
 
-// OfflineMessageClient is the client API for OfflineMessage service.
+// OfflineMessageServiceClient is the client API for OfflineMessageService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type OfflineMessageClient interface {
+type OfflineMessageServiceClient interface {
 	QueryOfflineMessage(ctx context.Context, in *QueryOfflineMessageReq, opts ...grpc.CallOption) (*QueryOfflineMessageResp, error)
 }
 
-type offlineMessageClient struct {
+type offlineMessageServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewOfflineMessageClient(cc grpc.ClientConnInterface) OfflineMessageClient {
-	return &offlineMessageClient{cc}
+func NewOfflineMessageServiceClient(cc grpc.ClientConnInterface) OfflineMessageServiceClient {
+	return &offlineMessageServiceClient{cc}
 }
 
-func (c *offlineMessageClient) QueryOfflineMessage(ctx context.Context, in *QueryOfflineMessageReq, opts ...grpc.CallOption) (*QueryOfflineMessageResp, error) {
+func (c *offlineMessageServiceClient) QueryOfflineMessage(ctx context.Context, in *QueryOfflineMessageReq, opts ...grpc.CallOption) (*QueryOfflineMessageResp, error) {
 	out := new(QueryOfflineMessageResp)
-	err := c.cc.Invoke(ctx, "/api.message.v1.OfflineMessage/QueryOfflineMessage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.message.v1.OfflineMessageService/QueryOfflineMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// OfflineMessageServer is the server API for OfflineMessage service.
-// All implementations must embed UnimplementedOfflineMessageServer
+// OfflineMessageServiceServer is the server API for OfflineMessageService service.
+// All implementations must embed UnimplementedOfflineMessageServiceServer
 // for forward compatibility
-type OfflineMessageServer interface {
+type OfflineMessageServiceServer interface {
 	QueryOfflineMessage(context.Context, *QueryOfflineMessageReq) (*QueryOfflineMessageResp, error)
-	mustEmbedUnimplementedOfflineMessageServer()
+	mustEmbedUnimplementedOfflineMessageServiceServer()
 }
 
-// UnimplementedOfflineMessageServer must be embedded to have forward compatible implementations.
-type UnimplementedOfflineMessageServer struct {
+// UnimplementedOfflineMessageServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedOfflineMessageServiceServer struct {
 }
 
-func (UnimplementedOfflineMessageServer) QueryOfflineMessage(context.Context, *QueryOfflineMessageReq) (*QueryOfflineMessageResp, error) {
+func (UnimplementedOfflineMessageServiceServer) QueryOfflineMessage(context.Context, *QueryOfflineMessageReq) (*QueryOfflineMessageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryOfflineMessage not implemented")
 }
-func (UnimplementedOfflineMessageServer) mustEmbedUnimplementedOfflineMessageServer() {}
+func (UnimplementedOfflineMessageServiceServer) mustEmbedUnimplementedOfflineMessageServiceServer() {}
 
-// UnsafeOfflineMessageServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to OfflineMessageServer will
+// UnsafeOfflineMessageServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OfflineMessageServiceServer will
 // result in compilation errors.
-type UnsafeOfflineMessageServer interface {
-	mustEmbedUnimplementedOfflineMessageServer()
+type UnsafeOfflineMessageServiceServer interface {
+	mustEmbedUnimplementedOfflineMessageServiceServer()
 }
 
-func RegisterOfflineMessageServer(s grpc.ServiceRegistrar, srv OfflineMessageServer) {
-	s.RegisterService(&OfflineMessage_ServiceDesc, srv)
+func RegisterOfflineMessageServiceServer(s grpc.ServiceRegistrar, srv OfflineMessageServiceServer) {
+	s.RegisterService(&OfflineMessageService_ServiceDesc, srv)
 }
 
-func _OfflineMessage_QueryOfflineMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OfflineMessageService_QueryOfflineMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryOfflineMessageReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OfflineMessageServer).QueryOfflineMessage(ctx, in)
+		return srv.(OfflineMessageServiceServer).QueryOfflineMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.message.v1.OfflineMessage/QueryOfflineMessage",
+		FullMethod: "/api.message.v1.OfflineMessageService/QueryOfflineMessage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OfflineMessageServer).QueryOfflineMessage(ctx, req.(*QueryOfflineMessageReq))
+		return srv.(OfflineMessageServiceServer).QueryOfflineMessage(ctx, req.(*QueryOfflineMessageReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// OfflineMessage_ServiceDesc is the grpc.ServiceDesc for OfflineMessage service.
+// OfflineMessageService_ServiceDesc is the grpc.ServiceDesc for OfflineMessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var OfflineMessage_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.message.v1.OfflineMessage",
-	HandlerType: (*OfflineMessageServer)(nil),
+var OfflineMessageService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.message.v1.OfflineMessageService",
+	HandlerType: (*OfflineMessageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "QueryOfflineMessage",
-			Handler:    _OfflineMessage_QueryOfflineMessage_Handler,
+			Handler:    _OfflineMessageService_QueryOfflineMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,6 +8,8 @@ option go_package = "github.com/go-goim/api/user/session/v1";
 enum SessionType {
   SingleChat = 0;
   GroupChat = 1;
+  // broadcast actually not a standard chat type, but we still use it here
+  Broadcast = 2;
 }
 // more session message type
 

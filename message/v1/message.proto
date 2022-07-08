@@ -3,25 +3,26 @@ syntax = "proto3";
 package api.message.v1;
 
 import "transport/response/response.proto";
+import "user/session/v1/session.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/message/v1";
 
 enum MessageContentType {
-  UnknownContentType = 0;
-  Text = 1;
-  Image = 2;
-  Voice = 3;
+  Text = 0;
+  Image = 1;
+  Voice = 2;
 }
 
 // SendMessageReq receive data from gateway
 message SendMessageReq {
   string from_user = 1 [(validate.rules).string.min_len = 20];
   string to_user = 2 [(validate.rules).string.min_len = 20];
-  MessageContentType content_type = 3 [(validate.rules).enum.defined_only = true];
-  string content = 4 [(validate.rules).string = {
+  user.session.v1.SessionType session_type = 3 [(validate.rules).enum.defined_only = true];
+  MessageContentType content_type = 4 [(validate.rules).enum.defined_only = true];
+  string content = 5 [(validate.rules).string = {
     min_len: 1,
-    max_len: 1024
+    max_len: 4096
   }];
 }
 
@@ -33,29 +34,11 @@ message SendMessageResp {
   string msg_seq = 3;
 }
 
-// SendMessager provide send message service
-service SendMessager {
-  // SendMessage send message to one or multi users/channels
-  rpc SendMessage(SendMessageReq) returns (SendMessageResp);
-  // Broadcast send message to all online user
-  rpc Broadcast(SendMessageReq) returns (SendMessageResp);
-}
-
-enum PushMessageType {
-  UnknownUserType = 0;
-  // user to user
-  User = 1;
-  // user to group
-  Group = 2;
-  // global broadcast
-  Broadcast = 3;
-}
-
 // MqMessage is message protocol when pub/sub msg to mq
 message MqMessage {
   string from_user = 1;
   string to_user = 2;
-  PushMessageType push_message_type = 3;
+  user.session.v1.SessionType session_type = 3;
   MessageContentType content_type = 4;
   string content = 5;
   int64 session_id = 6;
@@ -65,14 +48,16 @@ message MqMessage {
 message PushMessageReq {
   string from_user = 1;
   string to_user = 2;
-  PushMessageType push_message_type = 3;
-  MessageContentType content_type = 4;
-  string content = 5;
-  string msg_seq = 6;
-  int64 session_id = 7;
+  // to_group is validate when session_type is Group
+  optional string to_group = 3;
+  user.session.v1.SessionType session_type = 4;
+  MessageContentType content_type = 5;
+  string content = 6;
+  string msg_seq = 7;
+  int64 session_id = 8;
 }
 
-service PushMessager {
+service PushMessageService {
   rpc PushMessage(PushMessageReq) returns (transport.response.BaseResponse);
 }
 
@@ -103,6 +88,6 @@ message QueryOfflineMessageResp {
   repeated BriefMessage messages = 3;
 }
 
-service OfflineMessage {
+service OfflineMessageService {
   rpc QueryOfflineMessage(QueryOfflineMessageReq) returns (QueryOfflineMessageResp);
 }
