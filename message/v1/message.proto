@@ -18,7 +18,7 @@ enum MessageContentType {
 message SendMessageReq {
   string from_user = 1 [(validate.rules).string.min_len = 20];
   string to_user = 2 [(validate.rules).string.min_len = 20];
-  user.session.v1.SessionType session_type = 3 [(validate.rules).enum.defined_only = true];
+  user.session.v1.SessionType session_type = 3;
   MessageContentType content_type = 4 [(validate.rules).enum.defined_only = true];
   string content = 5 [(validate.rules).string = {
     min_len: 1,
