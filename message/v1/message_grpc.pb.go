@@ -4,7 +4,6 @@ package v1
 
 import (
 	context "context"
-	response "github.com/go-goim/api/transport/response"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PushMessageServiceClient interface {
-	PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*response.BaseResponse, error)
+	PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*PushMessageResp, error)
 }
 
 type pushMessageServiceClient struct {
@@ -30,8 +29,8 @@ func NewPushMessageServiceClient(cc grpc.ClientConnInterface) PushMessageService
 	return &pushMessageServiceClient{cc}
 }
 
-func (c *pushMessageServiceClient) PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*response.BaseResponse, error) {
-	out := new(response.BaseResponse)
+func (c *pushMessageServiceClient) PushMessage(ctx context.Context, in *PushMessageReq, opts ...grpc.CallOption) (*PushMessageResp, error) {
+	out := new(PushMessageResp)
 	err := c.cc.Invoke(ctx, "/api.message.v1.PushMessageService/PushMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,7 +42,7 @@ func (c *pushMessageServiceClient) PushMessage(ctx context.Context, in *PushMess
 // All implementations must embed UnimplementedPushMessageServiceServer
 // for forward compatibility
 type PushMessageServiceServer interface {
-	PushMessage(context.Context, *PushMessageReq) (*response.BaseResponse, error)
+	PushMessage(context.Context, *PushMessageReq) (*PushMessageResp, error)
 	mustEmbedUnimplementedPushMessageServiceServer()
 }
 
@@ -51,7 +50,7 @@ type PushMessageServiceServer interface {
 type UnimplementedPushMessageServiceServer struct {
 }
 
-func (UnimplementedPushMessageServiceServer) PushMessage(context.Context, *PushMessageReq) (*response.BaseResponse, error) {
+func (UnimplementedPushMessageServiceServer) PushMessage(context.Context, *PushMessageReq) (*PushMessageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PushMessage not implemented")
 }
 func (UnimplementedPushMessageServiceServer) mustEmbedUnimplementedPushMessageServiceServer() {}

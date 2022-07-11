@@ -57,9 +57,9 @@ func (m *SendMessageReq) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetFromUser()) < 20 {
+	if utf8.RuneCountInString(m.GetFrom()) < 20 {
 		err := SendMessageReqValidationError{
-			field:  "FromUser",
+			field:  "From",
 			reason: "value length must be at least 20 runes",
 		}
 		if !all {
@@ -68,9 +68,9 @@ func (m *SendMessageReq) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetToUser()) < 20 {
+	if utf8.RuneCountInString(m.GetTo()) < 20 {
 		err := SendMessageReqValidationError{
-			field:  "ToUser",
+			field:  "To",
 			reason: "value length must be at least 20 runes",
 		}
 		if !all {
@@ -101,6 +101,10 @@ func (m *SendMessageReq) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.SessionId != nil {
+		// no validation rules for SessionId
 	}
 
 	if len(errors) > 0 {
@@ -203,38 +207,9 @@ func (m *SendMessageResp) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SendMessageRespValidationError{
-					field:  "Response",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SendMessageRespValidationError{
-					field:  "Response",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SendMessageRespValidationError{
-				field:  "Response",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
 	// no validation rules for SessionId
 
-	// no validation rules for MsgSeq
+	// no validation rules for MsgId
 
 	if len(errors) > 0 {
 		return SendMessageRespMultiError(errors)
@@ -314,53 +289,56 @@ var _ interface {
 	ErrorName() string
 } = SendMessageRespValidationError{}
 
-// Validate checks the field values on MqMessage with the rules defined in the
+// Validate checks the field values on Message with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *MqMessage) Validate() error {
+func (m *Message) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on MqMessage with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in MqMessageMultiError, or nil
-// if none found.
-func (m *MqMessage) ValidateAll() error {
+// ValidateAll checks the field values on Message with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in MessageMultiError, or nil if none found.
+func (m *Message) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *MqMessage) validate(all bool) error {
+func (m *Message) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for FromUser
+	// no validation rules for MsgId
 
-	// no validation rules for ToUser
+	// no validation rules for From
+
+	// no validation rules for To
 
 	// no validation rules for SessionType
+
+	// no validation rules for SessionId
 
 	// no validation rules for ContentType
 
 	// no validation rules for Content
 
-	// no validation rules for SessionId
+	// no validation rules for CreateTime
 
 	if len(errors) > 0 {
-		return MqMessageMultiError(errors)
+		return MessageMultiError(errors)
 	}
 
 	return nil
 }
 
-// MqMessageMultiError is an error wrapping multiple validation errors returned
-// by MqMessage.ValidateAll() if the designated constraints aren't met.
-type MqMessageMultiError []error
+// MessageMultiError is an error wrapping multiple validation errors returned
+// by Message.ValidateAll() if the designated constraints aren't met.
+type MessageMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m MqMessageMultiError) Error() string {
+func (m MessageMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -369,11 +347,11 @@ func (m MqMessageMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m MqMessageMultiError) AllErrors() []error { return m }
+func (m MessageMultiError) AllErrors() []error { return m }
 
-// MqMessageValidationError is the validation error returned by
-// MqMessage.Validate if the designated constraints aren't met.
-type MqMessageValidationError struct {
+// MessageValidationError is the validation error returned by Message.Validate
+// if the designated constraints aren't met.
+type MessageValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -381,22 +359,22 @@ type MqMessageValidationError struct {
 }
 
 // Field function returns field value.
-func (e MqMessageValidationError) Field() string { return e.field }
+func (e MessageValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e MqMessageValidationError) Reason() string { return e.reason }
+func (e MessageValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e MqMessageValidationError) Cause() error { return e.cause }
+func (e MessageValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e MqMessageValidationError) Key() bool { return e.key }
+func (e MessageValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e MqMessageValidationError) ErrorName() string { return "MqMessageValidationError" }
+func (e MessageValidationError) ErrorName() string { return "MessageValidationError" }
 
 // Error satisfies the builtin error interface
-func (e MqMessageValidationError) Error() string {
+func (e MessageValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -408,14 +386,14 @@ func (e MqMessageValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sMqMessage.%s: %s%s",
+		"invalid %sMessage.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = MqMessageValidationError{}
+var _ error = MessageValidationError{}
 
 var _ interface {
 	Field() string
@@ -423,7 +401,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = MqMessageValidationError{}
+} = MessageValidationError{}
 
 // Validate checks the field values on PushMessageReq with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -447,22 +425,33 @@ func (m *PushMessageReq) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for FromUser
-
-	// no validation rules for ToUser
-
-	// no validation rules for SessionType
-
-	// no validation rules for ContentType
-
-	// no validation rules for Content
-
-	// no validation rules for MsgSeq
-
-	// no validation rules for SessionId
-
-	if m.ToGroup != nil {
-		// no validation rules for ToGroup
+	if all {
+		switch v := interface{}(m.GetMessage()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PushMessageReqValidationError{
+					field:  "Message",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PushMessageReqValidationError{
+					field:  "Message",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMessage()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PushMessageReqValidationError{
+				field:  "Message",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -543,53 +532,71 @@ var _ interface {
 	ErrorName() string
 } = PushMessageReqValidationError{}
 
-// Validate checks the field values on BriefMessage with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *BriefMessage) Validate() error {
+// Validate checks the field values on PushMessageResp with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *PushMessageResp) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on BriefMessage with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in BriefMessageMultiError, or
-// nil if none found.
-func (m *BriefMessage) ValidateAll() error {
+// ValidateAll checks the field values on PushMessageResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PushMessageRespMultiError, or nil if none found.
+func (m *PushMessageResp) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *BriefMessage) validate(all bool) error {
+func (m *PushMessageResp) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for FromUser
-
-	// no validation rules for ToUser
-
-	// no validation rules for ContentType
-
-	// no validation rules for Content
-
-	// no validation rules for MsgSeq
-
-	// no validation rules for SessionId
+	if all {
+		switch v := interface{}(m.GetResponse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PushMessageRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PushMessageRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PushMessageRespValidationError{
+				field:  "Response",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
-		return BriefMessageMultiError(errors)
+		return PushMessageRespMultiError(errors)
 	}
 
 	return nil
 }
 
-// BriefMessageMultiError is an error wrapping multiple validation errors
-// returned by BriefMessage.ValidateAll() if the designated constraints aren't met.
-type BriefMessageMultiError []error
+// PushMessageRespMultiError is an error wrapping multiple validation errors
+// returned by PushMessageResp.ValidateAll() if the designated constraints
+// aren't met.
+type PushMessageRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m BriefMessageMultiError) Error() string {
+func (m PushMessageRespMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -598,11 +605,11 @@ func (m BriefMessageMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m BriefMessageMultiError) AllErrors() []error { return m }
+func (m PushMessageRespMultiError) AllErrors() []error { return m }
 
-// BriefMessageValidationError is the validation error returned by
-// BriefMessage.Validate if the designated constraints aren't met.
-type BriefMessageValidationError struct {
+// PushMessageRespValidationError is the validation error returned by
+// PushMessageResp.Validate if the designated constraints aren't met.
+type PushMessageRespValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -610,22 +617,22 @@ type BriefMessageValidationError struct {
 }
 
 // Field function returns field value.
-func (e BriefMessageValidationError) Field() string { return e.field }
+func (e PushMessageRespValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e BriefMessageValidationError) Reason() string { return e.reason }
+func (e PushMessageRespValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e BriefMessageValidationError) Cause() error { return e.cause }
+func (e PushMessageRespValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e BriefMessageValidationError) Key() bool { return e.key }
+func (e PushMessageRespValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e BriefMessageValidationError) ErrorName() string { return "BriefMessageValidationError" }
+func (e PushMessageRespValidationError) ErrorName() string { return "PushMessageRespValidationError" }
 
 // Error satisfies the builtin error interface
-func (e BriefMessageValidationError) Error() string {
+func (e PushMessageRespValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -637,14 +644,14 @@ func (e BriefMessageValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sBriefMessage.%s: %s%s",
+		"invalid %sPushMessageResp.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = BriefMessageValidationError{}
+var _ error = PushMessageRespValidationError{}
 
 var _ interface {
 	Field() string
@@ -652,7 +659,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = BriefMessageValidationError{}
+} = PushMessageRespValidationError{}
 
 // Validate checks the field values on QueryOfflineMessageReq with the rules
 // defined in the proto definition for this message. If any rules are
@@ -687,10 +694,10 @@ func (m *QueryOfflineMessageReq) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetLastMsgSeq()) < 10 {
+	if m.GetLastMsgId() <= 0 {
 		err := QueryOfflineMessageReqValidationError{
-			field:  "LastMsgSeq",
-			reason: "value length must be at least 10 runes",
+			field:  "LastMsgId",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err

@@ -16,11 +16,12 @@ enum MessageContentType {
 
 // SendMessageReq receive data from gateway
 message SendMessageReq {
-  string from_user = 1 [(validate.rules).string.min_len = 20];
-  string to_user = 2 [(validate.rules).string.min_len = 20];
+  string from = 1 [(validate.rules).string.min_len = 20];
+  string to = 2 [(validate.rules).string.min_len = 20];
   user.session.v1.SessionType session_type = 3;
-  MessageContentType content_type = 4 [(validate.rules).enum.defined_only = true];
-  string content = 5 [(validate.rules).string = {
+  optional string session_id = 4;
+  MessageContentType content_type = 5 [(validate.rules).enum.defined_only = true];
+  string content = 6 [(validate.rules).string = {
     min_len: 1,
     max_len: 4096
   }];
@@ -28,52 +29,41 @@ message SendMessageReq {
 
 // SendMessageResp is response body for sendMessage
 message SendMessageResp {
-  transport.response.BaseResponse response = 1;
-  // MsgSeq is unique seq of a message
   int64 session_id = 2;
-  string msg_seq = 3;
+  int64 msg_id = 3;
 }
 
-// MqMessage is message protocol when pub/sub msg to mq
-message MqMessage {
-  string from_user = 1;
-  string to_user = 2;
-  user.session.v1.SessionType session_type = 3;
-  MessageContentType content_type = 4;
-  string content = 5;
-  int64 session_id = 6;
+// Message is definition of message
+message Message {
+  int64 msg_id = 1;
+  string from = 2;
+  string to = 3; // to user id or group id
+  user.session.v1.SessionType session_type = 4;
+  int64 session_id = 5;
+  MessageContentType content_type = 6;
+  string content = 7;
+  int64 create_time = 8;
 }
 
 // PushMessage use for push a message to persistence connection server
 message PushMessageReq {
-  string from_user = 1;
-  string to_user = 2;
-  // to_group is validate when session_type is Group
-  optional string to_group = 3;
-  user.session.v1.SessionType session_type = 4;
-  MessageContentType content_type = 5;
-  string content = 6;
-  string msg_seq = 7;
-  int64 session_id = 8;
+  Message message = 1;
+  // ToUsers is a list of user id who receive this message
+  repeated string to_users = 2;
+}
+
+message PushMessageResp {
+  transport.response.BaseResponse response = 1;
+  repeated string failed_users = 2;
 }
 
 service PushMessageService {
-  rpc PushMessage(PushMessageReq) returns (transport.response.BaseResponse);
-}
-
-// BriefMessage is message with basic information
-message BriefMessage {
-  string from_user = 1;
-  string to_user = 2;
-  MessageContentType content_type = 3;
-  string content = 4;
-  string msg_seq = 5;
-  int64 session_id = 6;
+  rpc PushMessage(PushMessageReq) returns (PushMessageResp);
 }
 
 message QueryOfflineMessageReq {
   string user_id = 1 [(validate.rules).string.min_len = 20];
-  string last_msg_seq = 2 [(validate.rules).string.min_len = 10];
+  int64 last_msg_id = 2 [(validate.rules).int64.gt = 0];
   bool onlyCount = 3;
   int32 page = 4;
   int32 page_size = 5 [(validate.rules).int32 = {
@@ -85,7 +75,7 @@ message QueryOfflineMessageReq {
 message QueryOfflineMessageResp {
   transport.response.BaseResponse response = 1;
   int32 total = 2;
-  repeated BriefMessage messages = 3;
+  repeated Message messages = 3;
 }
 
 service OfflineMessageService {
