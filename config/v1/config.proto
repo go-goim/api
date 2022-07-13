@@ -52,7 +52,7 @@ message Service {
   Redis redis = 7;
   MQ mq = 8;
   MySQL mysql = 9;
-  HBase hbase = 10;
+  HBase hBase = 10;
   // services name
   string gatewayService = 11;
   string userService = 12;

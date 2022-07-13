@@ -354,11 +354,11 @@ func (m *Service) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetHbase()).(type) {
+		switch v := interface{}(m.GetHBase()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ServiceValidationError{
-					field:  "Hbase",
+					field:  "HBase",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -366,16 +366,16 @@ func (m *Service) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ServiceValidationError{
-					field:  "Hbase",
+					field:  "HBase",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetHbase()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetHBase()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ServiceValidationError{
-				field:  "Hbase",
+				field:  "HBase",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
