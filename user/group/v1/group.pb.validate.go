@@ -56,8 +56,6 @@ func (m *Group) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	// no validation rules for Gid
 
 	// no validation rules for Name
@@ -240,8 +238,6 @@ func (m *GroupMember) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	// no validation rules for Gid
 
 	// no validation rules for Uid
@@ -384,7 +380,11 @@ func (m *GetGroupRequest) validate(all bool) error {
 
 	// no validation rules for Gid
 
+	// no validation rules for OwnerUid
+
 	// no validation rules for WithMembers
+
+	// no validation rules for WithInfo
 
 	if len(errors) > 0 {
 		return GetGroupRequestMultiError(errors)
@@ -1189,13 +1189,19 @@ func (m *UpdateGroupRequest) validate(all bool) error {
 
 	// no validation rules for Gid
 
-	// no validation rules for Name
+	// no validation rules for OwnerUid
 
-	// no validation rules for Description
+	if m.Name != nil {
+		// no validation rules for Name
+	}
 
-	// no validation rules for Avatar
+	if m.Description != nil {
+		// no validation rules for Description
+	}
 
-	// no validation rules for Uid
+	if m.Avatar != nil {
+		// no validation rules for Avatar
+	}
 
 	if len(errors) > 0 {
 		return UpdateGroupRequestMultiError(errors)
@@ -1461,7 +1467,7 @@ func (m *DeleteGroupRequest) validate(all bool) error {
 
 	// no validation rules for Gid
 
-	// no validation rules for Uid
+	// no validation rules for OwnerUid
 
 	if len(errors) > 0 {
 		return DeleteGroupRequestMultiError(errors)
@@ -1543,22 +1549,22 @@ var _ interface {
 	ErrorName() string
 } = DeleteGroupRequestValidationError{}
 
-// Validate checks the field values on AddGroupMemberRequest with the rules
+// Validate checks the field values on ChangeGroupMemberRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *AddGroupMemberRequest) Validate() error {
+func (m *ChangeGroupMemberRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on AddGroupMemberRequest with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on ChangeGroupMemberRequest with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// AddGroupMemberRequestMultiError, or nil if none found.
-func (m *AddGroupMemberRequest) ValidateAll() error {
+// ChangeGroupMemberRequestMultiError, or nil if none found.
+func (m *ChangeGroupMemberRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *AddGroupMemberRequest) validate(all bool) error {
+func (m *ChangeGroupMemberRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1567,20 +1573,22 @@ func (m *AddGroupMemberRequest) validate(all bool) error {
 
 	// no validation rules for Gid
 
+	// no validation rules for OwnerUid
+
 	if len(errors) > 0 {
-		return AddGroupMemberRequestMultiError(errors)
+		return ChangeGroupMemberRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// AddGroupMemberRequestMultiError is an error wrapping multiple validation
-// errors returned by AddGroupMemberRequest.ValidateAll() if the designated
+// ChangeGroupMemberRequestMultiError is an error wrapping multiple validation
+// errors returned by ChangeGroupMemberRequest.ValidateAll() if the designated
 // constraints aren't met.
-type AddGroupMemberRequestMultiError []error
+type ChangeGroupMemberRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m AddGroupMemberRequestMultiError) Error() string {
+func (m ChangeGroupMemberRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1589,11 +1597,11 @@ func (m AddGroupMemberRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m AddGroupMemberRequestMultiError) AllErrors() []error { return m }
+func (m ChangeGroupMemberRequestMultiError) AllErrors() []error { return m }
 
-// AddGroupMemberRequestValidationError is the validation error returned by
-// AddGroupMemberRequest.Validate if the designated constraints aren't met.
-type AddGroupMemberRequestValidationError struct {
+// ChangeGroupMemberRequestValidationError is the validation error returned by
+// ChangeGroupMemberRequest.Validate if the designated constraints aren't met.
+type ChangeGroupMemberRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1601,24 +1609,24 @@ type AddGroupMemberRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e AddGroupMemberRequestValidationError) Field() string { return e.field }
+func (e ChangeGroupMemberRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AddGroupMemberRequestValidationError) Reason() string { return e.reason }
+func (e ChangeGroupMemberRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AddGroupMemberRequestValidationError) Cause() error { return e.cause }
+func (e ChangeGroupMemberRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AddGroupMemberRequestValidationError) Key() bool { return e.key }
+func (e ChangeGroupMemberRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AddGroupMemberRequestValidationError) ErrorName() string {
-	return "AddGroupMemberRequestValidationError"
+func (e ChangeGroupMemberRequestValidationError) ErrorName() string {
+	return "ChangeGroupMemberRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e AddGroupMemberRequestValidationError) Error() string {
+func (e ChangeGroupMemberRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1630,14 +1638,14 @@ func (e AddGroupMemberRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAddGroupMemberRequest.%s: %s%s",
+		"invalid %sChangeGroupMemberRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AddGroupMemberRequestValidationError{}
+var _ error = ChangeGroupMemberRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1645,24 +1653,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AddGroupMemberRequestValidationError{}
+} = ChangeGroupMemberRequestValidationError{}
 
-// Validate checks the field values on AddGroupMemberResponse with the rules
+// Validate checks the field values on ChangeGroupMemberResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *AddGroupMemberResponse) Validate() error {
+func (m *ChangeGroupMemberResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on AddGroupMemberResponse with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on ChangeGroupMemberResponse with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// AddGroupMemberResponseMultiError, or nil if none found.
-func (m *AddGroupMemberResponse) ValidateAll() error {
+// ChangeGroupMemberResponseMultiError, or nil if none found.
+func (m *ChangeGroupMemberResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *AddGroupMemberResponse) validate(all bool) error {
+func (m *ChangeGroupMemberResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1673,7 +1681,7 @@ func (m *AddGroupMemberResponse) validate(all bool) error {
 		switch v := interface{}(m.GetResponse()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, AddGroupMemberResponseValidationError{
+				errors = append(errors, ChangeGroupMemberResponseValidationError{
 					field:  "Response",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1681,7 +1689,7 @@ func (m *AddGroupMemberResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, AddGroupMemberResponseValidationError{
+				errors = append(errors, ChangeGroupMemberResponseValidationError{
 					field:  "Response",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1690,7 +1698,7 @@ func (m *AddGroupMemberResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return AddGroupMemberResponseValidationError{
+			return ChangeGroupMemberResponseValidationError{
 				field:  "Response",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1698,259 +1706,22 @@ func (m *AddGroupMemberResponse) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Added
+	// no validation rules for Count
 
 	if len(errors) > 0 {
-		return AddGroupMemberResponseMultiError(errors)
+		return ChangeGroupMemberResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// AddGroupMemberResponseMultiError is an error wrapping multiple validation
-// errors returned by AddGroupMemberResponse.ValidateAll() if the designated
-// constraints aren't met.
-type AddGroupMemberResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m AddGroupMemberResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m AddGroupMemberResponseMultiError) AllErrors() []error { return m }
-
-// AddGroupMemberResponseValidationError is the validation error returned by
-// AddGroupMemberResponse.Validate if the designated constraints aren't met.
-type AddGroupMemberResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e AddGroupMemberResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e AddGroupMemberResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e AddGroupMemberResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e AddGroupMemberResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e AddGroupMemberResponseValidationError) ErrorName() string {
-	return "AddGroupMemberResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e AddGroupMemberResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sAddGroupMemberResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = AddGroupMemberResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = AddGroupMemberResponseValidationError{}
-
-// Validate checks the field values on RemoveGroupMemberRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *RemoveGroupMemberRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on RemoveGroupMemberRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// RemoveGroupMemberRequestMultiError, or nil if none found.
-func (m *RemoveGroupMemberRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *RemoveGroupMemberRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Gid
-
-	if len(errors) > 0 {
-		return RemoveGroupMemberRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// RemoveGroupMemberRequestMultiError is an error wrapping multiple validation
-// errors returned by RemoveGroupMemberRequest.ValidateAll() if the designated
-// constraints aren't met.
-type RemoveGroupMemberRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m RemoveGroupMemberRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m RemoveGroupMemberRequestMultiError) AllErrors() []error { return m }
-
-// RemoveGroupMemberRequestValidationError is the validation error returned by
-// RemoveGroupMemberRequest.Validate if the designated constraints aren't met.
-type RemoveGroupMemberRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e RemoveGroupMemberRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e RemoveGroupMemberRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e RemoveGroupMemberRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e RemoveGroupMemberRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e RemoveGroupMemberRequestValidationError) ErrorName() string {
-	return "RemoveGroupMemberRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e RemoveGroupMemberRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sRemoveGroupMemberRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = RemoveGroupMemberRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = RemoveGroupMemberRequestValidationError{}
-
-// Validate checks the field values on RemoveGroupMemberResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *RemoveGroupMemberResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on RemoveGroupMemberResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// RemoveGroupMemberResponseMultiError, or nil if none found.
-func (m *RemoveGroupMemberResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *RemoveGroupMemberResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, RemoveGroupMemberResponseValidationError{
-					field:  "Response",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, RemoveGroupMemberResponseValidationError{
-					field:  "Response",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return RemoveGroupMemberResponseValidationError{
-				field:  "Response",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Removed
-
-	if len(errors) > 0 {
-		return RemoveGroupMemberResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// RemoveGroupMemberResponseMultiError is an error wrapping multiple validation
-// errors returned by RemoveGroupMemberResponse.ValidateAll() if the
+// ChangeGroupMemberResponseMultiError is an error wrapping multiple validation
+// errors returned by ChangeGroupMemberResponse.ValidateAll() if the
 // designated constraints aren't met.
-type RemoveGroupMemberResponseMultiError []error
+type ChangeGroupMemberResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RemoveGroupMemberResponseMultiError) Error() string {
+func (m ChangeGroupMemberResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1959,11 +1730,11 @@ func (m RemoveGroupMemberResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RemoveGroupMemberResponseMultiError) AllErrors() []error { return m }
+func (m ChangeGroupMemberResponseMultiError) AllErrors() []error { return m }
 
-// RemoveGroupMemberResponseValidationError is the validation error returned by
-// RemoveGroupMemberResponse.Validate if the designated constraints aren't met.
-type RemoveGroupMemberResponseValidationError struct {
+// ChangeGroupMemberResponseValidationError is the validation error returned by
+// ChangeGroupMemberResponse.Validate if the designated constraints aren't met.
+type ChangeGroupMemberResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1971,24 +1742,24 @@ type RemoveGroupMemberResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e RemoveGroupMemberResponseValidationError) Field() string { return e.field }
+func (e ChangeGroupMemberResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RemoveGroupMemberResponseValidationError) Reason() string { return e.reason }
+func (e ChangeGroupMemberResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RemoveGroupMemberResponseValidationError) Cause() error { return e.cause }
+func (e ChangeGroupMemberResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RemoveGroupMemberResponseValidationError) Key() bool { return e.key }
+func (e ChangeGroupMemberResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RemoveGroupMemberResponseValidationError) ErrorName() string {
-	return "RemoveGroupMemberResponseValidationError"
+func (e ChangeGroupMemberResponseValidationError) ErrorName() string {
+	return "ChangeGroupMemberResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e RemoveGroupMemberResponseValidationError) Error() string {
+func (e ChangeGroupMemberResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -2000,14 +1771,14 @@ func (e RemoveGroupMemberResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRemoveGroupMemberResponse.%s: %s%s",
+		"invalid %sChangeGroupMemberResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RemoveGroupMemberResponseValidationError{}
+var _ error = ChangeGroupMemberResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -2015,4 +1786,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RemoveGroupMemberResponseValidationError{}
+} = ChangeGroupMemberResponseValidationError{}

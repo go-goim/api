@@ -24,8 +24,8 @@ type GroupServiceClient interface {
 	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*CreateGroupResponse, error)
 	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*UpdateGroupResponse, error)
 	DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
-	AddGroupMember(ctx context.Context, in *AddGroupMemberRequest, opts ...grpc.CallOption) (*AddGroupMemberResponse, error)
-	RemoveGroupMember(ctx context.Context, in *RemoveGroupMemberRequest, opts ...grpc.CallOption) (*RemoveGroupMemberResponse, error)
+	AddGroupMember(ctx context.Context, in *ChangeGroupMemberRequest, opts ...grpc.CallOption) (*ChangeGroupMemberResponse, error)
+	RemoveGroupMember(ctx context.Context, in *ChangeGroupMemberRequest, opts ...grpc.CallOption) (*ChangeGroupMemberResponse, error)
 }
 
 type groupServiceClient struct {
@@ -81,8 +81,8 @@ func (c *groupServiceClient) DeleteGroup(ctx context.Context, in *DeleteGroupReq
 	return out, nil
 }
 
-func (c *groupServiceClient) AddGroupMember(ctx context.Context, in *AddGroupMemberRequest, opts ...grpc.CallOption) (*AddGroupMemberResponse, error) {
-	out := new(AddGroupMemberResponse)
+func (c *groupServiceClient) AddGroupMember(ctx context.Context, in *ChangeGroupMemberRequest, opts ...grpc.CallOption) (*ChangeGroupMemberResponse, error) {
+	out := new(ChangeGroupMemberResponse)
 	err := c.cc.Invoke(ctx, "/api.user.group.v1.GroupService/AddGroupMember", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -90,8 +90,8 @@ func (c *groupServiceClient) AddGroupMember(ctx context.Context, in *AddGroupMem
 	return out, nil
 }
 
-func (c *groupServiceClient) RemoveGroupMember(ctx context.Context, in *RemoveGroupMemberRequest, opts ...grpc.CallOption) (*RemoveGroupMemberResponse, error) {
-	out := new(RemoveGroupMemberResponse)
+func (c *groupServiceClient) RemoveGroupMember(ctx context.Context, in *ChangeGroupMemberRequest, opts ...grpc.CallOption) (*ChangeGroupMemberResponse, error) {
+	out := new(ChangeGroupMemberResponse)
 	err := c.cc.Invoke(ctx, "/api.user.group.v1.GroupService/RemoveGroupMember", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -108,8 +108,8 @@ type GroupServiceServer interface {
 	CreateGroup(context.Context, *CreateGroupRequest) (*CreateGroupResponse, error)
 	UpdateGroup(context.Context, *UpdateGroupRequest) (*UpdateGroupResponse, error)
 	DeleteGroup(context.Context, *DeleteGroupRequest) (*response.BaseResponse, error)
-	AddGroupMember(context.Context, *AddGroupMemberRequest) (*AddGroupMemberResponse, error)
-	RemoveGroupMember(context.Context, *RemoveGroupMemberRequest) (*RemoveGroupMemberResponse, error)
+	AddGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error)
+	RemoveGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error)
 	mustEmbedUnimplementedGroupServiceServer()
 }
 
@@ -132,10 +132,10 @@ func (UnimplementedGroupServiceServer) UpdateGroup(context.Context, *UpdateGroup
 func (UnimplementedGroupServiceServer) DeleteGroup(context.Context, *DeleteGroupRequest) (*response.BaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteGroup not implemented")
 }
-func (UnimplementedGroupServiceServer) AddGroupMember(context.Context, *AddGroupMemberRequest) (*AddGroupMemberResponse, error) {
+func (UnimplementedGroupServiceServer) AddGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddGroupMember not implemented")
 }
-func (UnimplementedGroupServiceServer) RemoveGroupMember(context.Context, *RemoveGroupMemberRequest) (*RemoveGroupMemberResponse, error) {
+func (UnimplementedGroupServiceServer) RemoveGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveGroupMember not implemented")
 }
 func (UnimplementedGroupServiceServer) mustEmbedUnimplementedGroupServiceServer() {}
@@ -242,7 +242,7 @@ func _GroupService_DeleteGroup_Handler(srv interface{}, ctx context.Context, dec
 }
 
 func _GroupService_AddGroupMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddGroupMemberRequest)
+	in := new(ChangeGroupMemberRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -254,13 +254,13 @@ func _GroupService_AddGroupMember_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/api.user.group.v1.GroupService/AddGroupMember",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupServiceServer).AddGroupMember(ctx, req.(*AddGroupMemberRequest))
+		return srv.(GroupServiceServer).AddGroupMember(ctx, req.(*ChangeGroupMemberRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _GroupService_RemoveGroupMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemoveGroupMemberRequest)
+	in := new(ChangeGroupMemberRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -272,7 +272,7 @@ func _GroupService_RemoveGroupMember_Handler(srv interface{}, ctx context.Contex
 		FullMethod: "/api.user.group.v1.GroupService/RemoveGroupMember",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupServiceServer).RemoveGroupMember(ctx, req.(*RemoveGroupMemberRequest))
+		return srv.(GroupServiceServer).RemoveGroupMember(ctx, req.(*ChangeGroupMemberRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

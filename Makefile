@@ -59,8 +59,10 @@ tools-install: ## Install tools.
 .PHONY: buf
 buf: ## run buf generate command.
 	@printf $(COLOR) "Generating buf code..."
+	@echo $(NEWLINE)
 	buf generate
 	@printf $(COLOR) "Done."
+	@echo $(NEWLINE)
 
 ##################################################
 # General                                        #

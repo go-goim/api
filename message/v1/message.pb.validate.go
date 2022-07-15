@@ -57,10 +57,10 @@ func (m *SendMessageReq) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetFrom()) < 20 {
+	if m.GetFrom() <= 0 {
 		err := SendMessageReqValidationError{
 			field:  "From",
-			reason: "value length must be at least 20 runes",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -68,10 +68,10 @@ func (m *SendMessageReq) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetTo()) < 20 {
+	if m.GetTo() <= 0 {
 		err := SendMessageReqValidationError{
 			field:  "To",
-			reason: "value length must be at least 20 runes",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -683,10 +683,10 @@ func (m *QueryOfflineMessageReq) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetUserId()) < 20 {
+	if m.GetUid() <= 0 {
 		err := QueryOfflineMessageReqValidationError{
-			field:  "UserId",
-			reason: "value length must be at least 20 runes",
+			field:  "Uid",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err

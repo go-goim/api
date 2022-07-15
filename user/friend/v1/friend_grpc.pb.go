@@ -20,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FriendServiceClient interface {
 	// friend request
-	AddFriend(ctx context.Context, in *AddFriendRequest, opts ...grpc.CallOption) (*AddFriendResponse, error)
-	ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestReq, opts ...grpc.CallOption) (*response.BaseResponse, error)
+	AddFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*AddFriendResponse, error)
+	ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
 	GetFriendRequest(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*GetFriendRequestResponse, error)
 	QueryFriendRequestList(ctx context.Context, in *QueryFriendRequestListRequest, opts ...grpc.CallOption) (*QueryFriendRequestListResponse, error)
 	// friend
@@ -43,7 +43,7 @@ func NewFriendServiceClient(cc grpc.ClientConnInterface) FriendServiceClient {
 	return &friendServiceClient{cc}
 }
 
-func (c *friendServiceClient) AddFriend(ctx context.Context, in *AddFriendRequest, opts ...grpc.CallOption) (*AddFriendResponse, error) {
+func (c *friendServiceClient) AddFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*AddFriendResponse, error) {
 	out := new(AddFriendResponse)
 	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/AddFriend", in, out, opts...)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *friendServiceClient) AddFriend(ctx context.Context, in *AddFriendReques
 	return out, nil
 }
 
-func (c *friendServiceClient) ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestReq, opts ...grpc.CallOption) (*response.BaseResponse, error) {
+func (c *friendServiceClient) ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
 	out := new(response.BaseResponse)
 	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/ConfirmFriendRequest", in, out, opts...)
 	if err != nil {
@@ -129,8 +129,8 @@ func (c *friendServiceClient) CheckSendMessageAbility(ctx context.Context, in *C
 // for forward compatibility
 type FriendServiceServer interface {
 	// friend request
-	AddFriend(context.Context, *AddFriendRequest) (*AddFriendResponse, error)
-	ConfirmFriendRequest(context.Context, *ConfirmFriendRequestReq) (*response.BaseResponse, error)
+	AddFriend(context.Context, *BaseFriendRequest) (*AddFriendResponse, error)
+	ConfirmFriendRequest(context.Context, *ConfirmFriendRequestRequest) (*response.BaseResponse, error)
 	GetFriendRequest(context.Context, *BaseFriendRequest) (*GetFriendRequestResponse, error)
 	QueryFriendRequestList(context.Context, *QueryFriendRequestListRequest) (*QueryFriendRequestListResponse, error)
 	// friend
@@ -149,10 +149,10 @@ type FriendServiceServer interface {
 type UnimplementedFriendServiceServer struct {
 }
 
-func (UnimplementedFriendServiceServer) AddFriend(context.Context, *AddFriendRequest) (*AddFriendResponse, error) {
+func (UnimplementedFriendServiceServer) AddFriend(context.Context, *BaseFriendRequest) (*AddFriendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddFriend not implemented")
 }
-func (UnimplementedFriendServiceServer) ConfirmFriendRequest(context.Context, *ConfirmFriendRequestReq) (*response.BaseResponse, error) {
+func (UnimplementedFriendServiceServer) ConfirmFriendRequest(context.Context, *ConfirmFriendRequestRequest) (*response.BaseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfirmFriendRequest not implemented")
 }
 func (UnimplementedFriendServiceServer) GetFriendRequest(context.Context, *BaseFriendRequest) (*GetFriendRequestResponse, error) {
@@ -190,7 +190,7 @@ func RegisterFriendServiceServer(s grpc.ServiceRegistrar, srv FriendServiceServe
 }
 
 func _FriendService_AddFriend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddFriendRequest)
+	in := new(BaseFriendRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -202,13 +202,13 @@ func _FriendService_AddFriend_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/api.user.friend.v1.FriendService/AddFriend",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FriendServiceServer).AddFriend(ctx, req.(*AddFriendRequest))
+		return srv.(FriendServiceServer).AddFriend(ctx, req.(*BaseFriendRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FriendService_ConfirmFriendRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfirmFriendRequestReq)
+	in := new(ConfirmFriendRequestRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -220,7 +220,7 @@ func _FriendService_ConfirmFriendRequest_Handler(srv interface{}, ctx context.Co
 		FullMethod: "/api.user.friend.v1.FriendService/ConfirmFriendRequest",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FriendServiceServer).ConfirmFriendRequest(ctx, req.(*ConfirmFriendRequestReq))
+		return srv.(FriendServiceServer).ConfirmFriendRequest(ctx, req.(*ConfirmFriendRequestRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
