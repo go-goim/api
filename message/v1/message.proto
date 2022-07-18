@@ -37,12 +37,6 @@ message SendMessageReq {
   }];
 }
 
-// SendMessageResp is response body for sendMessage
-message SendMessageResp {
-  string session_id = 1;
-  int64 msg_id = 2;
-}
-
 // Message is definition of message
 message Message {
   int64 msg_id = 1;
