@@ -462,10 +462,10 @@ func (m *QueryFriendListRequest) validate(all bool) error {
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
+	if m.GetUid() <= 0 {
 		err := QueryFriendListRequestValidationError{
 			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -834,128 +834,6 @@ var _ interface {
 	ErrorName() string
 } = FriendRequestValidationError{}
 
-// Validate checks the field values on AddFriendRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *AddFriendRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on AddFriendRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// AddFriendRequestMultiError, or nil if none found.
-func (m *AddFriendRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *AddFriendRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
-		err := AddFriendRequestValidationError{
-			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if l := utf8.RuneCountInString(m.GetFriendUid()); l < 20 || l > 24 {
-		err := AddFriendRequestValidationError{
-			field:  "FriendUid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if len(errors) > 0 {
-		return AddFriendRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// AddFriendRequestMultiError is an error wrapping multiple validation errors
-// returned by AddFriendRequest.ValidateAll() if the designated constraints
-// aren't met.
-type AddFriendRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m AddFriendRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m AddFriendRequestMultiError) AllErrors() []error { return m }
-
-// AddFriendRequestValidationError is the validation error returned by
-// AddFriendRequest.Validate if the designated constraints aren't met.
-type AddFriendRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e AddFriendRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e AddFriendRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e AddFriendRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e AddFriendRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e AddFriendRequestValidationError) ErrorName() string { return "AddFriendRequestValidationError" }
-
-// Error satisfies the builtin error interface
-func (e AddFriendRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sAddFriendRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = AddFriendRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = AddFriendRequestValidationError{}
-
 // Validate checks the field values on BaseFriendRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -978,10 +856,10 @@ func (m *BaseFriendRequest) validate(all bool) error {
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
+	if m.GetUid() <= 0 {
 		err := BaseFriendRequestValidationError{
 			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -989,10 +867,10 @@ func (m *BaseFriendRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if l := utf8.RuneCountInString(m.GetFriendUid()); l < 20 || l > 24 {
+	if m.GetFriendUid() <= 0 {
 		err := BaseFriendRequestValidationError{
 			field:  "FriendUid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -1371,32 +1249,32 @@ var _ interface {
 	ErrorName() string
 } = AddFriendResultValidationError{}
 
-// Validate checks the field values on ConfirmFriendRequestReq with the rules
-// defined in the proto definition for this message. If any rules are
+// Validate checks the field values on ConfirmFriendRequestRequest with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ConfirmFriendRequestReq) Validate() error {
+func (m *ConfirmFriendRequestRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ConfirmFriendRequestReq with the
+// ValidateAll checks the field values on ConfirmFriendRequestRequest with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// ConfirmFriendRequestReqMultiError, or nil if none found.
-func (m *ConfirmFriendRequestReq) ValidateAll() error {
+// ConfirmFriendRequestRequestMultiError, or nil if none found.
+func (m *ConfirmFriendRequestRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ConfirmFriendRequestReq) validate(all bool) error {
+func (m *ConfirmFriendRequestRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
-		err := ConfirmFriendRequestReqValidationError{
+	if m.GetUid() <= 0 {
+		err := ConfirmFriendRequestRequestValidationError{
 			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -1405,7 +1283,7 @@ func (m *ConfirmFriendRequestReq) validate(all bool) error {
 	}
 
 	if m.GetFriendRequestId() <= 0 {
-		err := ConfirmFriendRequestReqValidationError{
+		err := ConfirmFriendRequestRequestValidationError{
 			field:  "FriendRequestId",
 			reason: "value must be greater than 0",
 		}
@@ -1416,7 +1294,7 @@ func (m *ConfirmFriendRequestReq) validate(all bool) error {
 	}
 
 	if _, ok := ConfirmFriendRequestAction_name[int32(m.GetAction())]; !ok {
-		err := ConfirmFriendRequestReqValidationError{
+		err := ConfirmFriendRequestRequestValidationError{
 			field:  "Action",
 			reason: "value must be one of the defined enum values",
 		}
@@ -1427,19 +1305,19 @@ func (m *ConfirmFriendRequestReq) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return ConfirmFriendRequestReqMultiError(errors)
+		return ConfirmFriendRequestRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// ConfirmFriendRequestReqMultiError is an error wrapping multiple validation
-// errors returned by ConfirmFriendRequestReq.ValidateAll() if the designated
-// constraints aren't met.
-type ConfirmFriendRequestReqMultiError []error
+// ConfirmFriendRequestRequestMultiError is an error wrapping multiple
+// validation errors returned by ConfirmFriendRequestRequest.ValidateAll() if
+// the designated constraints aren't met.
+type ConfirmFriendRequestRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ConfirmFriendRequestReqMultiError) Error() string {
+func (m ConfirmFriendRequestRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1448,11 +1326,12 @@ func (m ConfirmFriendRequestReqMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ConfirmFriendRequestReqMultiError) AllErrors() []error { return m }
+func (m ConfirmFriendRequestRequestMultiError) AllErrors() []error { return m }
 
-// ConfirmFriendRequestReqValidationError is the validation error returned by
-// ConfirmFriendRequestReq.Validate if the designated constraints aren't met.
-type ConfirmFriendRequestReqValidationError struct {
+// ConfirmFriendRequestRequestValidationError is the validation error returned
+// by ConfirmFriendRequestRequest.Validate if the designated constraints
+// aren't met.
+type ConfirmFriendRequestRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1460,24 +1339,24 @@ type ConfirmFriendRequestReqValidationError struct {
 }
 
 // Field function returns field value.
-func (e ConfirmFriendRequestReqValidationError) Field() string { return e.field }
+func (e ConfirmFriendRequestRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ConfirmFriendRequestReqValidationError) Reason() string { return e.reason }
+func (e ConfirmFriendRequestRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ConfirmFriendRequestReqValidationError) Cause() error { return e.cause }
+func (e ConfirmFriendRequestRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ConfirmFriendRequestReqValidationError) Key() bool { return e.key }
+func (e ConfirmFriendRequestRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ConfirmFriendRequestReqValidationError) ErrorName() string {
-	return "ConfirmFriendRequestReqValidationError"
+func (e ConfirmFriendRequestRequestValidationError) ErrorName() string {
+	return "ConfirmFriendRequestRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ConfirmFriendRequestReqValidationError) Error() string {
+func (e ConfirmFriendRequestRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1489,14 +1368,14 @@ func (e ConfirmFriendRequestReqValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sConfirmFriendRequestReq.%s: %s%s",
+		"invalid %sConfirmFriendRequestRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ConfirmFriendRequestReqValidationError{}
+var _ error = ConfirmFriendRequestRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1504,7 +1383,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ConfirmFriendRequestReqValidationError{}
+} = ConfirmFriendRequestRequestValidationError{}
 
 // Validate checks the field values on GetFriendRequestResponse with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1688,10 +1567,10 @@ func (m *QueryFriendRequestListRequest) validate(all bool) error {
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
+	if m.GetUid() <= 0 {
 		err := QueryFriendRequestListRequestValidationError{
 			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -1979,10 +1858,10 @@ func (m *CheckSendMessageAbilityRequest) validate(all bool) error {
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetFromUid()); l < 20 || l > 24 {
+	if m.GetFromUid() <= 0 {
 		err := CheckSendMessageAbilityRequestValidationError{
 			field:  "FromUid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -1990,10 +1869,10 @@ func (m *CheckSendMessageAbilityRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if l := utf8.RuneCountInString(m.GetToUid()); l < 20 || l > 24 {
+	if m.GetToUid() <= 0 {
 		err := CheckSendMessageAbilityRequestValidationError{
 			field:  "ToUid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err

@@ -14,14 +14,13 @@ enum LoginStatus {
   LOGOUT = 2;
 }
 
-message UserInternalResponse {
+message UserResponse {
   api.transport.response.BaseResponse response = 1;
-  UserInternal user = 2;
+  User user = 2;
 }
 
-// UserInternal is the internal representation of a user.
-message UserInternal {
-  string uid = 1;
+message User {
+  int64 uid = 1;
   string name = 2;
   optional string email = 3;
   optional string phone = 4;
@@ -36,33 +35,18 @@ message UserInternal {
   int64 updated_at = 10;
 }
 
-// User use for return user info to client.
-message User {
-  string uid = 1;
-  string name = 2;
-  optional string email = 3;
-  optional string phone = 4;
-  string avatar = 5;
-  // ws_url is url of user need connect via ws or tcp
-  optional string connect_url = 6;
-  // 0: first time login, need connect to push server
-  // 1: already login, no need connect to push server
-  LoginStatus login_status = 8;
-}
-
 message UserList {
   repeated User users = 1;
 }
 
 message GetUserInfoRequest {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
 }
 
 message QueryUserRequest {
-  oneof user {
+  oneof field {
     option (validate.required) = true;
     string email = 1 [(validate.rules).string.email = true];
     string phone = 2 [(validate.rules).string.pattern = "^1[3-9]\\d{9}$"];
@@ -74,7 +58,7 @@ message CreateUserRequest {
     min_len: 2,
     max_len: 20
   }];
-  oneof user {
+  oneof field {
     option (validate.required) = true;
     string email = 2 [(validate.rules).string.email = true];
     string phone = 3 [(validate.rules).string.pattern = "^1[3-9]\\d{9}$"];
@@ -86,9 +70,8 @@ message CreateUserRequest {
 }
 
 message UpdateUserRequest {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
   string name = 2 [(validate.rules).string = {
     min_len: 2,
@@ -107,21 +90,26 @@ message UpdateUserRequest {
     max_len: 128,
     ignore_empty: true
   }];
+  string password = 6 [(validate.rules).string = {
+    min_len: 6,
+    max_len: 20,
+    ignore_empty: true
+  }];
 }
 
 service UserService {
   // GetUser get user info by uid, called when uid is known.
-  rpc GetUser(GetUserInfoRequest) returns (UserInternalResponse);
+  rpc GetUser(GetUserInfoRequest) returns (UserResponse);
   // QueryUser query user info by email or phone, called when uid is unknown.
-  rpc QueryUser(QueryUserRequest) returns (UserInternalResponse);
+  rpc QueryUser(QueryUserRequest) returns (UserResponse);
   // CreateUser create user.
-  rpc CreateUser(CreateUserRequest) returns (UserInternalResponse);
+  rpc CreateUser(CreateUserRequest) returns (UserResponse);
   // UpdateUser update user info.
-  rpc UpdateUser(UpdateUserRequest) returns (UserInternalResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
 }
 
 message UserLoginRequest {
-  oneof user {
+  oneof field {
     option (validate.required) = true;
     string email = 1 [(validate.rules).string.email = true];
     string phone = 2 [(validate.rules).string.pattern = "^1[3-9]\\d{9}$"];

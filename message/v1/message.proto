@@ -3,7 +3,6 @@ syntax = "proto3";
 package api.message.v1;
 
 import "transport/response/response.proto";
-import "user/session/v1/session.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/message/v1";
@@ -14,11 +13,22 @@ enum MessageContentType {
   Voice = 2;
 }
 
+// define session type and status
+enum SessionType {
+  SingleChat = 0;
+  GroupChat = 1;
+  // broadcast actually not a standard chat type, but we still use it here
+  Broadcast = 2;
+  // Channel is for user subscribed channel msgs
+  Channel = 3;
+  // 255 at most
+}
+
 // SendMessageReq receive data from gateway
 message SendMessageReq {
-  string from = 1 [(validate.rules).string.min_len = 20];
-  string to = 2 [(validate.rules).string.min_len = 20];
-  user.session.v1.SessionType session_type = 3;
+  int64 from = 1 [(validate.rules).int64.gt = 0];
+  int64 to = 2 [(validate.rules).int64.gt = 0];
+  SessionType session_type = 3;
   optional string session_id = 4;
   MessageContentType content_type = 5 [(validate.rules).enum.defined_only = true];
   string content = 6 [(validate.rules).string = {
@@ -27,19 +37,13 @@ message SendMessageReq {
   }];
 }
 
-// SendMessageResp is response body for sendMessage
-message SendMessageResp {
-  int64 session_id = 2;
-  int64 msg_id = 3;
-}
-
 // Message is definition of message
 message Message {
   int64 msg_id = 1;
-  string from = 2;
-  string to = 3; // to user id or group id
-  user.session.v1.SessionType session_type = 4;
-  int64 session_id = 5;
+  int64 from = 2;
+  int64 to = 3; //  user id or group id or room id etc.
+  SessionType session_type = 4;
+  string session_id = 5;
   MessageContentType content_type = 6;
   string content = 7;
   int64 create_time = 8;
@@ -49,12 +53,12 @@ message Message {
 message PushMessageReq {
   Message message = 1;
   // ToUsers is a list of user id who receive this message
-  repeated string to_users = 2;
+  repeated int64 to_users = 2;
 }
 
 message PushMessageResp {
   transport.response.BaseResponse response = 1;
-  repeated string failed_users = 2;
+  repeated int64 failed_users = 2;
 }
 
 service PushMessageService {
@@ -62,7 +66,7 @@ service PushMessageService {
 }
 
 message QueryOfflineMessageReq {
-  string user_id = 1 [(validate.rules).string.min_len = 20];
+  int64 uid = 1 [(validate.rules).int64.gt = 0];
   int64 last_msg_id = 2 [(validate.rules).int64.gt = 0];
   bool onlyCount = 3;
   int32 page = 4;

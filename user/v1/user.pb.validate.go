@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on UserInternalResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *UserInternalResponse) Validate() error {
+// Validate checks the field values on UserResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *UserResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UserInternalResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// UserInternalResponseMultiError, or nil if none found.
-func (m *UserInternalResponse) ValidateAll() error {
+// ValidateAll checks the field values on UserResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in UserResponseMultiError, or
+// nil if none found.
+func (m *UserResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UserInternalResponse) validate(all bool) error {
+func (m *UserResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -61,7 +61,7 @@ func (m *UserInternalResponse) validate(all bool) error {
 		switch v := interface{}(m.GetResponse()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserInternalResponseValidationError{
+				errors = append(errors, UserResponseValidationError{
 					field:  "Response",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -69,7 +69,7 @@ func (m *UserInternalResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, UserInternalResponseValidationError{
+				errors = append(errors, UserResponseValidationError{
 					field:  "Response",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -78,7 +78,7 @@ func (m *UserInternalResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return UserInternalResponseValidationError{
+			return UserResponseValidationError{
 				field:  "Response",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -90,7 +90,7 @@ func (m *UserInternalResponse) validate(all bool) error {
 		switch v := interface{}(m.GetUser()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserInternalResponseValidationError{
+				errors = append(errors, UserResponseValidationError{
 					field:  "User",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -98,7 +98,7 @@ func (m *UserInternalResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, UserInternalResponseValidationError{
+				errors = append(errors, UserResponseValidationError{
 					field:  "User",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -107,7 +107,7 @@ func (m *UserInternalResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return UserInternalResponseValidationError{
+			return UserResponseValidationError{
 				field:  "User",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -116,19 +116,18 @@ func (m *UserInternalResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return UserInternalResponseMultiError(errors)
+		return UserResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// UserInternalResponseMultiError is an error wrapping multiple validation
-// errors returned by UserInternalResponse.ValidateAll() if the designated
-// constraints aren't met.
-type UserInternalResponseMultiError []error
+// UserResponseMultiError is an error wrapping multiple validation errors
+// returned by UserResponse.ValidateAll() if the designated constraints aren't met.
+type UserResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UserInternalResponseMultiError) Error() string {
+func (m UserResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -137,11 +136,11 @@ func (m UserInternalResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UserInternalResponseMultiError) AllErrors() []error { return m }
+func (m UserResponseMultiError) AllErrors() []error { return m }
 
-// UserInternalResponseValidationError is the validation error returned by
-// UserInternalResponse.Validate if the designated constraints aren't met.
-type UserInternalResponseValidationError struct {
+// UserResponseValidationError is the validation error returned by
+// UserResponse.Validate if the designated constraints aren't met.
+type UserResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -149,24 +148,22 @@ type UserInternalResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e UserInternalResponseValidationError) Field() string { return e.field }
+func (e UserResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UserInternalResponseValidationError) Reason() string { return e.reason }
+func (e UserResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UserInternalResponseValidationError) Cause() error { return e.cause }
+func (e UserResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UserInternalResponseValidationError) Key() bool { return e.key }
+func (e UserResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UserInternalResponseValidationError) ErrorName() string {
-	return "UserInternalResponseValidationError"
-}
+func (e UserResponseValidationError) ErrorName() string { return "UserResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e UserInternalResponseValidationError) Error() string {
+func (e UserResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -178,14 +175,14 @@ func (e UserInternalResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUserInternalResponse.%s: %s%s",
+		"invalid %sUserResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UserInternalResponseValidationError{}
+var _ error = UserResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -193,24 +190,23 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UserInternalResponseValidationError{}
+} = UserResponseValidationError{}
 
-// Validate checks the field values on UserInternal with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *UserInternal) Validate() error {
+// Validate checks the field values on User with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *User) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UserInternal with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in UserInternalMultiError, or
-// nil if none found.
-func (m *UserInternal) ValidateAll() error {
+// ValidateAll checks the field values on User with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in UserMultiError, or nil if none found.
+func (m *User) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UserInternal) validate(all bool) error {
+func (m *User) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -241,124 +237,6 @@ func (m *UserInternal) validate(all bool) error {
 
 	if m.PushServerIp != nil {
 		// no validation rules for PushServerIp
-	}
-
-	if len(errors) > 0 {
-		return UserInternalMultiError(errors)
-	}
-
-	return nil
-}
-
-// UserInternalMultiError is an error wrapping multiple validation errors
-// returned by UserInternal.ValidateAll() if the designated constraints aren't met.
-type UserInternalMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UserInternalMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UserInternalMultiError) AllErrors() []error { return m }
-
-// UserInternalValidationError is the validation error returned by
-// UserInternal.Validate if the designated constraints aren't met.
-type UserInternalValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e UserInternalValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e UserInternalValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e UserInternalValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e UserInternalValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e UserInternalValidationError) ErrorName() string { return "UserInternalValidationError" }
-
-// Error satisfies the builtin error interface
-func (e UserInternalValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUserInternal.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = UserInternalValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = UserInternalValidationError{}
-
-// Validate checks the field values on User with the rules defined in the proto
-// definition for this message. If any rules are violated, the first error
-// encountered is returned, or nil if there are no violations.
-func (m *User) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on User with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in UserMultiError, or nil if none found.
-func (m *User) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *User) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Uid
-
-	// no validation rules for Name
-
-	// no validation rules for Avatar
-
-	// no validation rules for LoginStatus
-
-	if m.Email != nil {
-		// no validation rules for Email
-	}
-
-	if m.Phone != nil {
-		// no validation rules for Phone
-	}
-
-	if m.ConnectUrl != nil {
-		// no validation rules for ConnectUrl
 	}
 
 	if len(errors) > 0 {
@@ -593,10 +471,10 @@ func (m *GetUserInfoRequest) validate(all bool) error {
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
+	if m.GetUid() <= 0 {
 		err := GetUserInfoRequestValidationError{
 			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -706,7 +584,7 @@ func (m *QueryUserRequest) validate(all bool) error {
 
 	var errors []error
 
-	switch m.User.(type) {
+	switch m.Field.(type) {
 
 	case *QueryUserRequest_Email:
 
@@ -737,7 +615,7 @@ func (m *QueryUserRequest) validate(all bool) error {
 
 	default:
 		err := QueryUserRequestValidationError{
-			field:  "User",
+			field:  "Field",
 			reason: "value is required",
 		}
 		if !all {
@@ -921,7 +799,7 @@ func (m *CreateUserRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	switch m.User.(type) {
+	switch m.Field.(type) {
 
 	case *CreateUserRequest_Email:
 
@@ -952,7 +830,7 @@ func (m *CreateUserRequest) validate(all bool) error {
 
 	default:
 		err := CreateUserRequestValidationError{
-			field:  "User",
+			field:  "Field",
 			reason: "value is required",
 		}
 		if !all {
@@ -1116,10 +994,10 @@ func (m *UpdateUserRequest) validate(all bool) error {
 
 	var errors []error
 
-	if l := utf8.RuneCountInString(m.GetUid()); l < 20 || l > 24 {
+	if m.GetUid() <= 0 {
 		err := UpdateUserRequestValidationError{
 			field:  "Uid",
-			reason: "value length must be between 20 and 24 runes, inclusive",
+			reason: "value must be greater than 0",
 		}
 		if !all {
 			return err
@@ -1179,6 +1057,21 @@ func (m *UpdateUserRequest) validate(all bool) error {
 			err := UpdateUserRequestValidationError{
 				field:  "Avatar",
 				reason: "value length must be at most 128 runes",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if m.GetPassword() != "" {
+
+		if l := utf8.RuneCountInString(m.GetPassword()); l < 6 || l > 20 {
+			err := UpdateUserRequestValidationError{
+				field:  "Password",
+				reason: "value length must be between 6 and 20 runes, inclusive",
 			}
 			if !all {
 				return err
@@ -1346,7 +1239,7 @@ func (m *UserLoginRequest) validate(all bool) error {
 
 	// no validation rules for LoginType
 
-	switch m.User.(type) {
+	switch m.Field.(type) {
 
 	case *UserLoginRequest_Email:
 
@@ -1377,7 +1270,7 @@ func (m *UserLoginRequest) validate(all bool) error {
 
 	default:
 		err := UserLoginRequestValidationError{
-			field:  "User",
+			field:  "Field",
 			reason: "value is required",
 		}
 		if !all {

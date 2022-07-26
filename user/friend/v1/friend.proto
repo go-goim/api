@@ -3,14 +3,14 @@ syntax = "proto3";
 package api.user.friend.v1;
 
 import "transport/response/response.proto";
-import "user/session/v1/session.proto";
+import "message/v1/message.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/user/friend/v1";
 
 message Friend {
-  string uid = 1;
-  string friend_uid = 2;
+  int64 uid = 1;
+  int64 friend_uid = 2;
   string friend_name = 3;
   string friend_avatar = 4;
   FriendStatus status = 5;
@@ -41,9 +41,8 @@ message GetFriendResponse {
 }
 
 message QueryFriendListRequest {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
 }
 
@@ -58,9 +57,9 @@ message QueryFriendListResponse {
 
 // FriendRequest is the request data for adding friend
 message FriendRequest {
-  int64 id = 1;
-  string uid = 2;
-  string friend_uid = 3;
+  uint64 id = 1;
+  int64 uid = 2;
+  int64 friend_uid = 3;
   FriendRequestStatus status = 4;
   int64 created_at = 5;
   int64 updated_at = 6;
@@ -78,25 +77,12 @@ enum FriendRequestStatus {
   REJECTED = 2;
 }
 
-message AddFriendRequest {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
-  }];
-  string friend_uid = 2 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
-  }];
-}
-
 message BaseFriendRequest {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
-  string friend_uid = 2 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 friend_uid = 2 [(validate.rules).int64 = {
+    gt: 0
   }];
 }
 
@@ -118,12 +104,11 @@ enum AddFriendStatus {
   BLOCKED_BY_FRIEND = 4;
 }
 
-message ConfirmFriendRequestReq {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+message ConfirmFriendRequestRequest {
+  int64 uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
-  int64 friend_request_id = 2 [(validate.rules).int64.gt = 0];
+  uint64 friend_request_id = 2 [(validate.rules).uint64.gt = 0];
   ConfirmFriendRequestAction action = 3 [(validate.rules).enum.defined_only = true];
 }
 
@@ -138,9 +123,8 @@ message GetFriendRequestResponse {
 }
 
 message QueryFriendRequestListRequest {
-  string uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
   FriendRequestStatus status = 2 [(validate.rules).enum.defined_only = true];
 }
@@ -152,26 +136,24 @@ message QueryFriendRequestListResponse {
 
 // CheckSendMessageAbilityRequest is the request data for checking send message ability.
 message CheckSendMessageAbilityRequest {
-  string from_uid = 1 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 from_uid = 1 [(validate.rules).int64 = {
+    gt: 0
   }];
-  string to_uid = 2 [(validate.rules).string = {
-    min_len: 20,
-    max_len: 24
+  int64 to_uid = 2 [(validate.rules).int64 = {
+    gt: 0
   }];
-  user.session.v1.SessionType session_type = 3;
+  api.message.v1.SessionType session_type = 3;
 }
 
 message CheckSendMessageAbilityResponse {
   transport.response.BaseResponse response = 1;
-  optional int64 session_id = 2;
+  optional string session_id = 2;
 }
 
 service FriendService {
   // friend request
-  rpc AddFriend(AddFriendRequest) returns (AddFriendResponse);
-  rpc ConfirmFriendRequest(ConfirmFriendRequestReq) returns (transport.response.BaseResponse);
+  rpc AddFriend(BaseFriendRequest) returns (AddFriendResponse);
+  rpc ConfirmFriendRequest(ConfirmFriendRequestRequest) returns (transport.response.BaseResponse);
   rpc GetFriendRequest(BaseFriendRequest) returns (GetFriendRequestResponse);
   rpc QueryFriendRequestList(QueryFriendRequestListRequest) returns (QueryFriendRequestListResponse);
 
