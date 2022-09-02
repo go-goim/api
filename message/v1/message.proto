@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package api.message.v1;
 
+import "google/protobuf/timestamp.proto";
 import "transport/response/response.proto";
 import "validate/validate.proto";
 
@@ -84,4 +85,24 @@ message QueryOfflineMessageResp {
 
 service OfflineMessageService {
   rpc QueryOfflineMessage(QueryOfflineMessageReq) returns (QueryOfflineMessageResp);
+}
+
+// storage message
+message StorageMessage {
+  string rowKey = 1;
+  message Users {
+    int64 fromID = 1;
+    int64 toID = 2;
+    string sessionID = 3;
+  }
+  Users users = 2;
+  message Content {
+    MessageContentType contentType = 1;
+    string content = 2;
+  }
+  Content content = 3;
+  message Extra {
+    google.protobuf.Timestamp createTime = 1;
+  }
+  Extra extra = 4;
 }

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package api.user.friend.v1;
 
-import "transport/response/response.proto";
 import "message/v1/message.proto";
+import "transport/response/response.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/user/friend/v1";
