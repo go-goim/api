@@ -862,3 +862,537 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = QueryOfflineMessageRespValidationError{}
+
+// Validate checks the field values on StorageMessage with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *StorageMessage) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StorageMessage with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in StorageMessageMultiError,
+// or nil if none found.
+func (m *StorageMessage) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StorageMessage) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for RowKey
+
+	if all {
+		switch v := interface{}(m.GetUsers()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StorageMessageValidationError{
+					field:  "Users",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StorageMessageValidationError{
+					field:  "Users",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUsers()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StorageMessageValidationError{
+				field:  "Users",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetContent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StorageMessageValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StorageMessageValidationError{
+					field:  "Content",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StorageMessageValidationError{
+				field:  "Content",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetExtra()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StorageMessageValidationError{
+					field:  "Extra",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StorageMessageValidationError{
+					field:  "Extra",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExtra()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StorageMessageValidationError{
+				field:  "Extra",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return StorageMessageMultiError(errors)
+	}
+
+	return nil
+}
+
+// StorageMessageMultiError is an error wrapping multiple validation errors
+// returned by StorageMessage.ValidateAll() if the designated constraints
+// aren't met.
+type StorageMessageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StorageMessageMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StorageMessageMultiError) AllErrors() []error { return m }
+
+// StorageMessageValidationError is the validation error returned by
+// StorageMessage.Validate if the designated constraints aren't met.
+type StorageMessageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StorageMessageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StorageMessageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StorageMessageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StorageMessageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StorageMessageValidationError) ErrorName() string { return "StorageMessageValidationError" }
+
+// Error satisfies the builtin error interface
+func (e StorageMessageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStorageMessage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StorageMessageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StorageMessageValidationError{}
+
+// Validate checks the field values on StorageMessage_Users with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StorageMessage_Users) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StorageMessage_Users with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StorageMessage_UsersMultiError, or nil if none found.
+func (m *StorageMessage_Users) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StorageMessage_Users) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for FromID
+
+	// no validation rules for ToID
+
+	// no validation rules for SessionID
+
+	if len(errors) > 0 {
+		return StorageMessage_UsersMultiError(errors)
+	}
+
+	return nil
+}
+
+// StorageMessage_UsersMultiError is an error wrapping multiple validation
+// errors returned by StorageMessage_Users.ValidateAll() if the designated
+// constraints aren't met.
+type StorageMessage_UsersMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StorageMessage_UsersMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StorageMessage_UsersMultiError) AllErrors() []error { return m }
+
+// StorageMessage_UsersValidationError is the validation error returned by
+// StorageMessage_Users.Validate if the designated constraints aren't met.
+type StorageMessage_UsersValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StorageMessage_UsersValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StorageMessage_UsersValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StorageMessage_UsersValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StorageMessage_UsersValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StorageMessage_UsersValidationError) ErrorName() string {
+	return "StorageMessage_UsersValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StorageMessage_UsersValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStorageMessage_Users.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StorageMessage_UsersValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StorageMessage_UsersValidationError{}
+
+// Validate checks the field values on StorageMessage_Content with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StorageMessage_Content) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StorageMessage_Content with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StorageMessage_ContentMultiError, or nil if none found.
+func (m *StorageMessage_Content) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StorageMessage_Content) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ContentType
+
+	// no validation rules for Content
+
+	if len(errors) > 0 {
+		return StorageMessage_ContentMultiError(errors)
+	}
+
+	return nil
+}
+
+// StorageMessage_ContentMultiError is an error wrapping multiple validation
+// errors returned by StorageMessage_Content.ValidateAll() if the designated
+// constraints aren't met.
+type StorageMessage_ContentMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StorageMessage_ContentMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StorageMessage_ContentMultiError) AllErrors() []error { return m }
+
+// StorageMessage_ContentValidationError is the validation error returned by
+// StorageMessage_Content.Validate if the designated constraints aren't met.
+type StorageMessage_ContentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StorageMessage_ContentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StorageMessage_ContentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StorageMessage_ContentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StorageMessage_ContentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StorageMessage_ContentValidationError) ErrorName() string {
+	return "StorageMessage_ContentValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StorageMessage_ContentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStorageMessage_Content.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StorageMessage_ContentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StorageMessage_ContentValidationError{}
+
+// Validate checks the field values on StorageMessage_Extra with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StorageMessage_Extra) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StorageMessage_Extra with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StorageMessage_ExtraMultiError, or nil if none found.
+func (m *StorageMessage_Extra) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StorageMessage_Extra) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCreateTime()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StorageMessage_ExtraValidationError{
+					field:  "CreateTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StorageMessage_ExtraValidationError{
+					field:  "CreateTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCreateTime()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StorageMessage_ExtraValidationError{
+				field:  "CreateTime",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return StorageMessage_ExtraMultiError(errors)
+	}
+
+	return nil
+}
+
+// StorageMessage_ExtraMultiError is an error wrapping multiple validation
+// errors returned by StorageMessage_Extra.ValidateAll() if the designated
+// constraints aren't met.
+type StorageMessage_ExtraMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StorageMessage_ExtraMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StorageMessage_ExtraMultiError) AllErrors() []error { return m }
+
+// StorageMessage_ExtraValidationError is the validation error returned by
+// StorageMessage_Extra.Validate if the designated constraints aren't met.
+type StorageMessage_ExtraValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StorageMessage_ExtraValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StorageMessage_ExtraValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StorageMessage_ExtraValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StorageMessage_ExtraValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StorageMessage_ExtraValidationError) ErrorName() string {
+	return "StorageMessage_ExtraValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StorageMessage_ExtraValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStorageMessage_Extra.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StorageMessage_ExtraValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StorageMessage_ExtraValidationError{}
