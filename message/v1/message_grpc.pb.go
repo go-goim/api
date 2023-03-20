@@ -105,6 +105,7 @@ var PushMessageService_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OfflineMessageServiceClient interface {
 	QueryOfflineMessage(ctx context.Context, in *QueryOfflineMessageReq, opts ...grpc.CallOption) (*QueryOfflineMessageResp, error)
+	ConfirmLastMstID(ctx context.Context, in *ConfirmLastMsgIDReq, opts ...grpc.CallOption) (*ConfirmLastMsgIDResp, error)
 }
 
 type offlineMessageServiceClient struct {
@@ -124,11 +125,21 @@ func (c *offlineMessageServiceClient) QueryOfflineMessage(ctx context.Context, i
 	return out, nil
 }
 
+func (c *offlineMessageServiceClient) ConfirmLastMstID(ctx context.Context, in *ConfirmLastMsgIDReq, opts ...grpc.CallOption) (*ConfirmLastMsgIDResp, error) {
+	out := new(ConfirmLastMsgIDResp)
+	err := c.cc.Invoke(ctx, "/api.message.v1.OfflineMessageService/ConfirmLastMstID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OfflineMessageServiceServer is the server API for OfflineMessageService service.
 // All implementations must embed UnimplementedOfflineMessageServiceServer
 // for forward compatibility
 type OfflineMessageServiceServer interface {
 	QueryOfflineMessage(context.Context, *QueryOfflineMessageReq) (*QueryOfflineMessageResp, error)
+	ConfirmLastMstID(context.Context, *ConfirmLastMsgIDReq) (*ConfirmLastMsgIDResp, error)
 	mustEmbedUnimplementedOfflineMessageServiceServer()
 }
 
@@ -138,6 +149,9 @@ type UnimplementedOfflineMessageServiceServer struct {
 
 func (UnimplementedOfflineMessageServiceServer) QueryOfflineMessage(context.Context, *QueryOfflineMessageReq) (*QueryOfflineMessageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryOfflineMessage not implemented")
+}
+func (UnimplementedOfflineMessageServiceServer) ConfirmLastMstID(context.Context, *ConfirmLastMsgIDReq) (*ConfirmLastMsgIDResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmLastMstID not implemented")
 }
 func (UnimplementedOfflineMessageServiceServer) mustEmbedUnimplementedOfflineMessageServiceServer() {}
 
@@ -170,6 +184,24 @@ func _OfflineMessageService_QueryOfflineMessage_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OfflineMessageService_ConfirmLastMstID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmLastMsgIDReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OfflineMessageServiceServer).ConfirmLastMstID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.message.v1.OfflineMessageService/ConfirmLastMstID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OfflineMessageServiceServer).ConfirmLastMstID(ctx, req.(*ConfirmLastMsgIDReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OfflineMessageService_ServiceDesc is the grpc.ServiceDesc for OfflineMessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +212,132 @@ var OfflineMessageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryOfflineMessage",
 			Handler:    _OfflineMessageService_QueryOfflineMessage_Handler,
+		},
+		{
+			MethodName: "ConfirmLastMstID",
+			Handler:    _OfflineMessageService_ConfirmLastMstID_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "message/v1/message.proto",
+}
+
+// HistoryMessageServiceClient is the client API for HistoryMessageService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type HistoryMessageServiceClient interface {
+	QuerySessionHistoryMessage(ctx context.Context, in *QuerySessionHistoryMessageReq, opts ...grpc.CallOption) (*QuerySessionHistoryMessageResp, error)
+	SyncHistoryMessage(ctx context.Context, in *SyncHistoryMessageReq, opts ...grpc.CallOption) (*SyncHistoryMessageResp, error)
+}
+
+type historyMessageServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewHistoryMessageServiceClient(cc grpc.ClientConnInterface) HistoryMessageServiceClient {
+	return &historyMessageServiceClient{cc}
+}
+
+func (c *historyMessageServiceClient) QuerySessionHistoryMessage(ctx context.Context, in *QuerySessionHistoryMessageReq, opts ...grpc.CallOption) (*QuerySessionHistoryMessageResp, error) {
+	out := new(QuerySessionHistoryMessageResp)
+	err := c.cc.Invoke(ctx, "/api.message.v1.HistoryMessageService/QuerySessionHistoryMessage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *historyMessageServiceClient) SyncHistoryMessage(ctx context.Context, in *SyncHistoryMessageReq, opts ...grpc.CallOption) (*SyncHistoryMessageResp, error) {
+	out := new(SyncHistoryMessageResp)
+	err := c.cc.Invoke(ctx, "/api.message.v1.HistoryMessageService/SyncHistoryMessage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// HistoryMessageServiceServer is the server API for HistoryMessageService service.
+// All implementations must embed UnimplementedHistoryMessageServiceServer
+// for forward compatibility
+type HistoryMessageServiceServer interface {
+	QuerySessionHistoryMessage(context.Context, *QuerySessionHistoryMessageReq) (*QuerySessionHistoryMessageResp, error)
+	SyncHistoryMessage(context.Context, *SyncHistoryMessageReq) (*SyncHistoryMessageResp, error)
+	mustEmbedUnimplementedHistoryMessageServiceServer()
+}
+
+// UnimplementedHistoryMessageServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedHistoryMessageServiceServer struct {
+}
+
+func (UnimplementedHistoryMessageServiceServer) QuerySessionHistoryMessage(context.Context, *QuerySessionHistoryMessageReq) (*QuerySessionHistoryMessageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QuerySessionHistoryMessage not implemented")
+}
+func (UnimplementedHistoryMessageServiceServer) SyncHistoryMessage(context.Context, *SyncHistoryMessageReq) (*SyncHistoryMessageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncHistoryMessage not implemented")
+}
+func (UnimplementedHistoryMessageServiceServer) mustEmbedUnimplementedHistoryMessageServiceServer() {}
+
+// UnsafeHistoryMessageServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to HistoryMessageServiceServer will
+// result in compilation errors.
+type UnsafeHistoryMessageServiceServer interface {
+	mustEmbedUnimplementedHistoryMessageServiceServer()
+}
+
+func RegisterHistoryMessageServiceServer(s grpc.ServiceRegistrar, srv HistoryMessageServiceServer) {
+	s.RegisterService(&HistoryMessageService_ServiceDesc, srv)
+}
+
+func _HistoryMessageService_QuerySessionHistoryMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySessionHistoryMessageReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HistoryMessageServiceServer).QuerySessionHistoryMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.message.v1.HistoryMessageService/QuerySessionHistoryMessage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HistoryMessageServiceServer).QuerySessionHistoryMessage(ctx, req.(*QuerySessionHistoryMessageReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HistoryMessageService_SyncHistoryMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncHistoryMessageReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HistoryMessageServiceServer).SyncHistoryMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.message.v1.HistoryMessageService/SyncHistoryMessage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HistoryMessageServiceServer).SyncHistoryMessage(ctx, req.(*SyncHistoryMessageReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// HistoryMessageService_ServiceDesc is the grpc.ServiceDesc for HistoryMessageService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var HistoryMessageService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.message.v1.HistoryMessageService",
+	HandlerType: (*HistoryMessageServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "QuerySessionHistoryMessage",
+			Handler:    _HistoryMessageService_QuerySessionHistoryMessage_Handler,
+		},
+		{
+			MethodName: "SyncHistoryMessage",
+			Handler:    _HistoryMessageService_SyncHistoryMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
