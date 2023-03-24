@@ -83,8 +83,19 @@ message QueryOfflineMessageResp {
   repeated Message messages = 3;
 }
 
+message ConfirmLastMsgIDReq {
+  int64 uid = 1 [(validate.rules).int64.gt = 0];
+  int64 last_msg_id = 2 [(validate.rules).int64.gt = 0];
+}
+
+message ConfirmLastMsgIDResp {
+  transport.response.BaseResponse response = 1;
+  int64 last_msg_id = 2;
+}
+
 service OfflineMessageService {
   rpc QueryOfflineMessage(QueryOfflineMessageReq) returns (QueryOfflineMessageResp);
+  rpc ConfirmLastMstID(ConfirmLastMsgIDReq) returns (ConfirmLastMsgIDResp);
 }
 
 // storage message
@@ -105,4 +116,46 @@ message StorageMessage {
     google.protobuf.Timestamp createTime = 1;
   }
   Extra extra = 4;
+}
+
+// HistoryMessage
+
+message QuerySessionHistoryMessageReq {
+  int64 uid = 1 [(validate.rules).int64.gt = 0];
+  string session_id = 2;
+  int64 last_msg_id = 3 [(validate.rules).int64.gt = 0];
+  int32 page = 4;
+  int32 page_size = 5 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+}
+
+message QuerySessionHistoryMessageResp {
+  transport.response.BaseResponse response = 1;
+  int32 total = 2;
+  repeated Message messages = 3;
+}
+
+
+message SyncHistoryMessageReq {
+  int64 uid = 1 [(validate.rules).int64.gt = 0];
+  int64 last_msg_id = 2 [(validate.rules).int64.gt = 0];
+  int32 page = 3;
+  int32 page_size = 4 [(validate.rules).int32 = {
+    gte: 1,
+    lte: 100
+  }];
+}
+
+message SyncHistoryMessageResp {
+  transport.response.BaseResponse response = 1;
+  int32 total = 2;
+  repeated Message messages = 3;
+}
+
+
+service HistoryMessageService {
+  rpc QuerySessionHistoryMessage(QuerySessionHistoryMessageReq) returns (QuerySessionHistoryMessageResp);
+  rpc SyncHistoryMessage(SyncHistoryMessageReq) returns (SyncHistoryMessageResp);
 }

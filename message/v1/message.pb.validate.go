@@ -863,6 +863,263 @@ var _ interface {
 	ErrorName() string
 } = QueryOfflineMessageRespValidationError{}
 
+// Validate checks the field values on ConfirmLastMsgIDReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ConfirmLastMsgIDReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ConfirmLastMsgIDReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ConfirmLastMsgIDReqMultiError, or nil if none found.
+func (m *ConfirmLastMsgIDReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ConfirmLastMsgIDReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetUid() <= 0 {
+		err := ConfirmLastMsgIDReqValidationError{
+			field:  "Uid",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetLastMsgId() <= 0 {
+		err := ConfirmLastMsgIDReqValidationError{
+			field:  "LastMsgId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return ConfirmLastMsgIDReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// ConfirmLastMsgIDReqMultiError is an error wrapping multiple validation
+// errors returned by ConfirmLastMsgIDReq.ValidateAll() if the designated
+// constraints aren't met.
+type ConfirmLastMsgIDReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ConfirmLastMsgIDReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ConfirmLastMsgIDReqMultiError) AllErrors() []error { return m }
+
+// ConfirmLastMsgIDReqValidationError is the validation error returned by
+// ConfirmLastMsgIDReq.Validate if the designated constraints aren't met.
+type ConfirmLastMsgIDReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ConfirmLastMsgIDReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ConfirmLastMsgIDReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ConfirmLastMsgIDReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ConfirmLastMsgIDReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ConfirmLastMsgIDReqValidationError) ErrorName() string {
+	return "ConfirmLastMsgIDReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ConfirmLastMsgIDReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sConfirmLastMsgIDReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ConfirmLastMsgIDReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ConfirmLastMsgIDReqValidationError{}
+
+// Validate checks the field values on ConfirmLastMsgIDResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ConfirmLastMsgIDResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ConfirmLastMsgIDResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ConfirmLastMsgIDRespMultiError, or nil if none found.
+func (m *ConfirmLastMsgIDResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ConfirmLastMsgIDResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetResponse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ConfirmLastMsgIDRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ConfirmLastMsgIDRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ConfirmLastMsgIDRespValidationError{
+				field:  "Response",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for LastMsgId
+
+	if len(errors) > 0 {
+		return ConfirmLastMsgIDRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// ConfirmLastMsgIDRespMultiError is an error wrapping multiple validation
+// errors returned by ConfirmLastMsgIDResp.ValidateAll() if the designated
+// constraints aren't met.
+type ConfirmLastMsgIDRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ConfirmLastMsgIDRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ConfirmLastMsgIDRespMultiError) AllErrors() []error { return m }
+
+// ConfirmLastMsgIDRespValidationError is the validation error returned by
+// ConfirmLastMsgIDResp.Validate if the designated constraints aren't met.
+type ConfirmLastMsgIDRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ConfirmLastMsgIDRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ConfirmLastMsgIDRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ConfirmLastMsgIDRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ConfirmLastMsgIDRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ConfirmLastMsgIDRespValidationError) ErrorName() string {
+	return "ConfirmLastMsgIDRespValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ConfirmLastMsgIDRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sConfirmLastMsgIDResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ConfirmLastMsgIDRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ConfirmLastMsgIDRespValidationError{}
+
 // Validate checks the field values on StorageMessage with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -1051,6 +1308,618 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = StorageMessageValidationError{}
+
+// Validate checks the field values on QuerySessionHistoryMessageReq with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QuerySessionHistoryMessageReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QuerySessionHistoryMessageReq with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// QuerySessionHistoryMessageReqMultiError, or nil if none found.
+func (m *QuerySessionHistoryMessageReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QuerySessionHistoryMessageReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetUid() <= 0 {
+		err := QuerySessionHistoryMessageReqValidationError{
+			field:  "Uid",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for SessionId
+
+	if m.GetLastMsgId() <= 0 {
+		err := QuerySessionHistoryMessageReqValidationError{
+			field:  "LastMsgId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Page
+
+	if val := m.GetPageSize(); val < 1 || val > 100 {
+		err := QuerySessionHistoryMessageReqValidationError{
+			field:  "PageSize",
+			reason: "value must be inside range [1, 100]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return QuerySessionHistoryMessageReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// QuerySessionHistoryMessageReqMultiError is an error wrapping multiple
+// validation errors returned by QuerySessionHistoryMessageReq.ValidateAll()
+// if the designated constraints aren't met.
+type QuerySessionHistoryMessageReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QuerySessionHistoryMessageReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QuerySessionHistoryMessageReqMultiError) AllErrors() []error { return m }
+
+// QuerySessionHistoryMessageReqValidationError is the validation error
+// returned by QuerySessionHistoryMessageReq.Validate if the designated
+// constraints aren't met.
+type QuerySessionHistoryMessageReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QuerySessionHistoryMessageReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QuerySessionHistoryMessageReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QuerySessionHistoryMessageReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QuerySessionHistoryMessageReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QuerySessionHistoryMessageReqValidationError) ErrorName() string {
+	return "QuerySessionHistoryMessageReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QuerySessionHistoryMessageReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQuerySessionHistoryMessageReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QuerySessionHistoryMessageReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QuerySessionHistoryMessageReqValidationError{}
+
+// Validate checks the field values on QuerySessionHistoryMessageResp with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QuerySessionHistoryMessageResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QuerySessionHistoryMessageResp with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// QuerySessionHistoryMessageRespMultiError, or nil if none found.
+func (m *QuerySessionHistoryMessageResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QuerySessionHistoryMessageResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetResponse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, QuerySessionHistoryMessageRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, QuerySessionHistoryMessageRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return QuerySessionHistoryMessageRespValidationError{
+				field:  "Response",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Total
+
+	for idx, item := range m.GetMessages() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QuerySessionHistoryMessageRespValidationError{
+						field:  fmt.Sprintf("Messages[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QuerySessionHistoryMessageRespValidationError{
+						field:  fmt.Sprintf("Messages[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QuerySessionHistoryMessageRespValidationError{
+					field:  fmt.Sprintf("Messages[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return QuerySessionHistoryMessageRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// QuerySessionHistoryMessageRespMultiError is an error wrapping multiple
+// validation errors returned by QuerySessionHistoryMessageResp.ValidateAll()
+// if the designated constraints aren't met.
+type QuerySessionHistoryMessageRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QuerySessionHistoryMessageRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QuerySessionHistoryMessageRespMultiError) AllErrors() []error { return m }
+
+// QuerySessionHistoryMessageRespValidationError is the validation error
+// returned by QuerySessionHistoryMessageResp.Validate if the designated
+// constraints aren't met.
+type QuerySessionHistoryMessageRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QuerySessionHistoryMessageRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QuerySessionHistoryMessageRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QuerySessionHistoryMessageRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QuerySessionHistoryMessageRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QuerySessionHistoryMessageRespValidationError) ErrorName() string {
+	return "QuerySessionHistoryMessageRespValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QuerySessionHistoryMessageRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQuerySessionHistoryMessageResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QuerySessionHistoryMessageRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QuerySessionHistoryMessageRespValidationError{}
+
+// Validate checks the field values on SyncHistoryMessageReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SyncHistoryMessageReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SyncHistoryMessageReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SyncHistoryMessageReqMultiError, or nil if none found.
+func (m *SyncHistoryMessageReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SyncHistoryMessageReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.GetUid() <= 0 {
+		err := SyncHistoryMessageReqValidationError{
+			field:  "Uid",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetLastMsgId() <= 0 {
+		err := SyncHistoryMessageReqValidationError{
+			field:  "LastMsgId",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for Page
+
+	if val := m.GetPageSize(); val < 1 || val > 100 {
+		err := SyncHistoryMessageReqValidationError{
+			field:  "PageSize",
+			reason: "value must be inside range [1, 100]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return SyncHistoryMessageReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// SyncHistoryMessageReqMultiError is an error wrapping multiple validation
+// errors returned by SyncHistoryMessageReq.ValidateAll() if the designated
+// constraints aren't met.
+type SyncHistoryMessageReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SyncHistoryMessageReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SyncHistoryMessageReqMultiError) AllErrors() []error { return m }
+
+// SyncHistoryMessageReqValidationError is the validation error returned by
+// SyncHistoryMessageReq.Validate if the designated constraints aren't met.
+type SyncHistoryMessageReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SyncHistoryMessageReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SyncHistoryMessageReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SyncHistoryMessageReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SyncHistoryMessageReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SyncHistoryMessageReqValidationError) ErrorName() string {
+	return "SyncHistoryMessageReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SyncHistoryMessageReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSyncHistoryMessageReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SyncHistoryMessageReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SyncHistoryMessageReqValidationError{}
+
+// Validate checks the field values on SyncHistoryMessageResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SyncHistoryMessageResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SyncHistoryMessageResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SyncHistoryMessageRespMultiError, or nil if none found.
+func (m *SyncHistoryMessageResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SyncHistoryMessageResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetResponse()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SyncHistoryMessageRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SyncHistoryMessageRespValidationError{
+					field:  "Response",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SyncHistoryMessageRespValidationError{
+				field:  "Response",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Total
+
+	for idx, item := range m.GetMessages() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SyncHistoryMessageRespValidationError{
+						field:  fmt.Sprintf("Messages[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SyncHistoryMessageRespValidationError{
+						field:  fmt.Sprintf("Messages[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SyncHistoryMessageRespValidationError{
+					field:  fmt.Sprintf("Messages[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return SyncHistoryMessageRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// SyncHistoryMessageRespMultiError is an error wrapping multiple validation
+// errors returned by SyncHistoryMessageResp.ValidateAll() if the designated
+// constraints aren't met.
+type SyncHistoryMessageRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SyncHistoryMessageRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SyncHistoryMessageRespMultiError) AllErrors() []error { return m }
+
+// SyncHistoryMessageRespValidationError is the validation error returned by
+// SyncHistoryMessageResp.Validate if the designated constraints aren't met.
+type SyncHistoryMessageRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SyncHistoryMessageRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SyncHistoryMessageRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SyncHistoryMessageRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SyncHistoryMessageRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SyncHistoryMessageRespValidationError) ErrorName() string {
+	return "SyncHistoryMessageRespValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SyncHistoryMessageRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSyncHistoryMessageResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SyncHistoryMessageRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SyncHistoryMessageRespValidationError{}
 
 // Validate checks the field values on StorageMessage_Users with the rules
 // defined in the proto definition for this message. If any rules are
