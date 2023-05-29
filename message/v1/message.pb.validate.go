@@ -451,11 +451,11 @@ func (m *PushMessageResp) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, PushMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -463,16 +463,16 @@ func (m *PushMessageResp) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, PushMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return PushMessageRespValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -719,11 +719,11 @@ func (m *QueryOfflineMessageResp) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, QueryOfflineMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -731,16 +731,16 @@ func (m *QueryOfflineMessageResp) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, QueryOfflineMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return QueryOfflineMessageRespValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1010,11 +1010,11 @@ func (m *ConfirmLastMsgIDResp) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ConfirmLastMsgIDRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1022,16 +1022,16 @@ func (m *ConfirmLastMsgIDResp) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ConfirmLastMsgIDRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ConfirmLastMsgIDRespValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1472,11 +1472,11 @@ func (m *QuerySessionHistoryMessageResp) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, QuerySessionHistoryMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1484,16 +1484,16 @@ func (m *QuerySessionHistoryMessageResp) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, QuerySessionHistoryMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return QuerySessionHistoryMessageRespValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1777,11 +1777,11 @@ func (m *SyncHistoryMessageResp) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SyncHistoryMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1789,16 +1789,16 @@ func (m *SyncHistoryMessageResp) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SyncHistoryMessageRespValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SyncHistoryMessageRespValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

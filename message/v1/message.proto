@@ -3,7 +3,7 @@ syntax = "proto3";
 package api.message.v1;
 
 import "google/protobuf/timestamp.proto";
-import "transport/response/response.proto";
+import "errors/errors.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/message/v1";
@@ -58,7 +58,7 @@ message PushMessageReq {
 }
 
 message PushMessageResp {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   repeated int64 failed_users = 2;
 }
 
@@ -78,7 +78,7 @@ message QueryOfflineMessageReq {
 }
 
 message QueryOfflineMessageResp {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   int32 total = 2;
   repeated Message messages = 3;
 }
@@ -89,7 +89,7 @@ message ConfirmLastMsgIDReq {
 }
 
 message ConfirmLastMsgIDResp {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   int64 last_msg_id = 2;
 }
 
@@ -132,7 +132,7 @@ message QuerySessionHistoryMessageReq {
 }
 
 message QuerySessionHistoryMessageResp {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   int32 total = 2;
   repeated Message messages = 3;
 }
@@ -149,7 +149,7 @@ message SyncHistoryMessageReq {
 }
 
 message SyncHistoryMessageResp {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   int32 total = 2;
   repeated Message messages = 3;
 }

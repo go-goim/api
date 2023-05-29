@@ -4,7 +4,7 @@ package v1
 
 import (
 	context "context"
-	response "github.com/go-goim/api/transport/response"
+	errors "github.com/go-goim/api/errors"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -21,12 +21,12 @@ const _ = grpc.SupportPackageIsVersion7
 type FriendServiceClient interface {
 	// friend request
 	AddFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*AddFriendResponse, error)
-	ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
+	ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestRequest, opts ...grpc.CallOption) (*errors.Error, error)
 	GetFriendRequest(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*GetFriendRequestResponse, error)
 	QueryFriendRequestList(ctx context.Context, in *QueryFriendRequestListRequest, opts ...grpc.CallOption) (*QueryFriendRequestListResponse, error)
 	// friend
-	UpdateFriendStatus(ctx context.Context, in *UpdateFriendStatusRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
-	IsFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
+	UpdateFriendStatus(ctx context.Context, in *UpdateFriendStatusRequest, opts ...grpc.CallOption) (*errors.Error, error)
+	IsFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*errors.Error, error)
 	GetFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*GetFriendResponse, error)
 	QueryFriendList(ctx context.Context, in *QueryFriendListRequest, opts ...grpc.CallOption) (*QueryFriendListResponse, error)
 	// check send message ability
@@ -52,8 +52,8 @@ func (c *friendServiceClient) AddFriend(ctx context.Context, in *BaseFriendReque
 	return out, nil
 }
 
-func (c *friendServiceClient) ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
-	out := new(response.BaseResponse)
+func (c *friendServiceClient) ConfirmFriendRequest(ctx context.Context, in *ConfirmFriendRequestRequest, opts ...grpc.CallOption) (*errors.Error, error) {
+	out := new(errors.Error)
 	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/ConfirmFriendRequest", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +79,8 @@ func (c *friendServiceClient) QueryFriendRequestList(ctx context.Context, in *Qu
 	return out, nil
 }
 
-func (c *friendServiceClient) UpdateFriendStatus(ctx context.Context, in *UpdateFriendStatusRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
-	out := new(response.BaseResponse)
+func (c *friendServiceClient) UpdateFriendStatus(ctx context.Context, in *UpdateFriendStatusRequest, opts ...grpc.CallOption) (*errors.Error, error) {
+	out := new(errors.Error)
 	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/UpdateFriendStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -88,8 +88,8 @@ func (c *friendServiceClient) UpdateFriendStatus(ctx context.Context, in *Update
 	return out, nil
 }
 
-func (c *friendServiceClient) IsFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
-	out := new(response.BaseResponse)
+func (c *friendServiceClient) IsFriend(ctx context.Context, in *BaseFriendRequest, opts ...grpc.CallOption) (*errors.Error, error) {
+	out := new(errors.Error)
 	err := c.cc.Invoke(ctx, "/api.user.friend.v1.FriendService/IsFriend", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,12 +130,12 @@ func (c *friendServiceClient) CheckSendMessageAbility(ctx context.Context, in *C
 type FriendServiceServer interface {
 	// friend request
 	AddFriend(context.Context, *BaseFriendRequest) (*AddFriendResponse, error)
-	ConfirmFriendRequest(context.Context, *ConfirmFriendRequestRequest) (*response.BaseResponse, error)
+	ConfirmFriendRequest(context.Context, *ConfirmFriendRequestRequest) (*errors.Error, error)
 	GetFriendRequest(context.Context, *BaseFriendRequest) (*GetFriendRequestResponse, error)
 	QueryFriendRequestList(context.Context, *QueryFriendRequestListRequest) (*QueryFriendRequestListResponse, error)
 	// friend
-	UpdateFriendStatus(context.Context, *UpdateFriendStatusRequest) (*response.BaseResponse, error)
-	IsFriend(context.Context, *BaseFriendRequest) (*response.BaseResponse, error)
+	UpdateFriendStatus(context.Context, *UpdateFriendStatusRequest) (*errors.Error, error)
+	IsFriend(context.Context, *BaseFriendRequest) (*errors.Error, error)
 	GetFriend(context.Context, *BaseFriendRequest) (*GetFriendResponse, error)
 	QueryFriendList(context.Context, *QueryFriendListRequest) (*QueryFriendListResponse, error)
 	// check send message ability
@@ -152,7 +152,7 @@ type UnimplementedFriendServiceServer struct {
 func (UnimplementedFriendServiceServer) AddFriend(context.Context, *BaseFriendRequest) (*AddFriendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddFriend not implemented")
 }
-func (UnimplementedFriendServiceServer) ConfirmFriendRequest(context.Context, *ConfirmFriendRequestRequest) (*response.BaseResponse, error) {
+func (UnimplementedFriendServiceServer) ConfirmFriendRequest(context.Context, *ConfirmFriendRequestRequest) (*errors.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfirmFriendRequest not implemented")
 }
 func (UnimplementedFriendServiceServer) GetFriendRequest(context.Context, *BaseFriendRequest) (*GetFriendRequestResponse, error) {
@@ -161,10 +161,10 @@ func (UnimplementedFriendServiceServer) GetFriendRequest(context.Context, *BaseF
 func (UnimplementedFriendServiceServer) QueryFriendRequestList(context.Context, *QueryFriendRequestListRequest) (*QueryFriendRequestListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryFriendRequestList not implemented")
 }
-func (UnimplementedFriendServiceServer) UpdateFriendStatus(context.Context, *UpdateFriendStatusRequest) (*response.BaseResponse, error) {
+func (UnimplementedFriendServiceServer) UpdateFriendStatus(context.Context, *UpdateFriendStatusRequest) (*errors.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateFriendStatus not implemented")
 }
-func (UnimplementedFriendServiceServer) IsFriend(context.Context, *BaseFriendRequest) (*response.BaseResponse, error) {
+func (UnimplementedFriendServiceServer) IsFriend(context.Context, *BaseFriendRequest) (*errors.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsFriend not implemented")
 }
 func (UnimplementedFriendServiceServer) GetFriend(context.Context, *BaseFriendRequest) (*GetFriendResponse, error) {

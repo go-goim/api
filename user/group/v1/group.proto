@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.user.group.v1;
 
-import "transport/response/response.proto";
+import "errors/errors.proto";
 import "user/v1/user.proto";
 
 option go_package = "github.com/go-goim/api/user/group/v1";
@@ -54,7 +54,7 @@ message GetGroupRequest {
 }
 
 message GetGroupResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   Group group = 2;
 }
 
@@ -68,7 +68,7 @@ message ListGroupsRequest {
 }
 
 message ListGroupsResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   repeated Group groups = 2;
 }
 
@@ -83,7 +83,7 @@ message CreateGroupRequest {
 }
 
 message CreateGroupResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   Group group = 2;
 }
 
@@ -98,7 +98,7 @@ message UpdateGroupRequest {
 }
 
 message UpdateGroupResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   Group group = 2;
 }
 
@@ -117,7 +117,7 @@ message ChangeGroupMemberRequest {
 }
 
 message ChangeGroupMemberResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   int32 count = 2; // count of members changed
 }
 
@@ -126,7 +126,7 @@ service GroupService {
   rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse);
   rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse);
   rpc UpdateGroup(UpdateGroupRequest) returns (UpdateGroupResponse);
-  rpc DeleteGroup(DeleteGroupRequest) returns (transport.response.BaseResponse);
+  rpc DeleteGroup(DeleteGroupRequest) returns (errors.Error);
   rpc AddGroupMember(ChangeGroupMemberRequest) returns (ChangeGroupMemberResponse);
   rpc RemoveGroupMember(ChangeGroupMemberRequest) returns (ChangeGroupMemberResponse);
 }

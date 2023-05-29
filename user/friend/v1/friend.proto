@@ -3,7 +3,7 @@ syntax = "proto3";
 package api.user.friend.v1;
 
 import "message/v1/message.proto";
-import "transport/response/response.proto";
+import "errors/errors.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/user/friend/v1";
@@ -36,7 +36,7 @@ message UpdateFriendStatusRequest {
 }
 
 message GetFriendResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   Friend friend = 2;
 }
 
@@ -47,7 +47,7 @@ message QueryFriendListRequest {
 }
 
 message QueryFriendListResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   repeated Friend friend_list = 2;
 }
 
@@ -87,7 +87,7 @@ message BaseFriendRequest {
 }
 
 message AddFriendResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   AddFriendResult result = 2;
 }
 
@@ -118,7 +118,7 @@ enum ConfirmFriendRequestAction {
 }
 
 message GetFriendRequestResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   FriendRequest friend_request = 2;
 }
 
@@ -130,7 +130,7 @@ message QueryFriendRequestListRequest {
 }
 
 message QueryFriendRequestListResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   repeated FriendRequest friend_request_list = 2;
 }
 
@@ -146,20 +146,20 @@ message CheckSendMessageAbilityRequest {
 }
 
 message CheckSendMessageAbilityResponse {
-  transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   optional string session_id = 2;
 }
 
 service FriendService {
   // friend request
   rpc AddFriend(BaseFriendRequest) returns (AddFriendResponse);
-  rpc ConfirmFriendRequest(ConfirmFriendRequestRequest) returns (transport.response.BaseResponse);
+  rpc ConfirmFriendRequest(ConfirmFriendRequestRequest) returns (errors.Error);
   rpc GetFriendRequest(BaseFriendRequest) returns (GetFriendRequestResponse);
   rpc QueryFriendRequestList(QueryFriendRequestListRequest) returns (QueryFriendRequestListResponse);
 
   // friend
-  rpc UpdateFriendStatus(UpdateFriendStatusRequest) returns (transport.response.BaseResponse);
-  rpc IsFriend(BaseFriendRequest) returns (transport.response.BaseResponse);
+  rpc UpdateFriendStatus(UpdateFriendStatusRequest) returns (errors.Error);
+  rpc IsFriend(BaseFriendRequest) returns (errors.Error);
   rpc GetFriend(BaseFriendRequest) returns (GetFriendResponse);
   rpc QueryFriendList(QueryFriendListRequest) returns (QueryFriendListResponse);
   // check send message ability

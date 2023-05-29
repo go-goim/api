@@ -3,7 +3,7 @@ syntax = "proto3";
 package api.user.v1;
 
 // import api/transport/v1/http.proto;
-import "transport/response/response.proto";
+import "errors/errors.proto";
 import "validate/validate.proto";
 
 option go_package = "github.com/go-goim/api/user/v1";
@@ -15,7 +15,7 @@ enum LoginStatus {
 }
 
 message UserResponse {
-  api.transport.response.BaseResponse response = 1;
+  errors.Error error = 1;
   User user = 2;
 }
 
