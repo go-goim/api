@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package api.transport.response;
+package api.errors;
 
-option go_package = "github.com/go-goim/api/transport/response";
+option go_package = "github.com/go-goim/api/errors";
 
-enum Code {
+enum ErrorCode {
   OK = 0;
 
   // common error codes
@@ -38,9 +38,9 @@ enum Code {
   GroupLimitExceed = 50005;
 }
 
-// BaseResponse use as define response code and message
-message BaseResponse {
-  Code code = 1;
+// Error use as define error code and message.
+message Error {
+  ErrorCode error_code = 1;
   string reason = 2;
   string message = 3;
 }

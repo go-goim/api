@@ -4,7 +4,7 @@ package v1
 
 import (
 	context "context"
-	response "github.com/go-goim/api/transport/response"
+	errors "github.com/go-goim/api/errors"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,7 +23,7 @@ type GroupServiceClient interface {
 	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
 	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*CreateGroupResponse, error)
 	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*UpdateGroupResponse, error)
-	DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*response.BaseResponse, error)
+	DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*errors.Error, error)
 	AddGroupMember(ctx context.Context, in *ChangeGroupMemberRequest, opts ...grpc.CallOption) (*ChangeGroupMemberResponse, error)
 	RemoveGroupMember(ctx context.Context, in *ChangeGroupMemberRequest, opts ...grpc.CallOption) (*ChangeGroupMemberResponse, error)
 }
@@ -72,8 +72,8 @@ func (c *groupServiceClient) UpdateGroup(ctx context.Context, in *UpdateGroupReq
 	return out, nil
 }
 
-func (c *groupServiceClient) DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*response.BaseResponse, error) {
-	out := new(response.BaseResponse)
+func (c *groupServiceClient) DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*errors.Error, error) {
+	out := new(errors.Error)
 	err := c.cc.Invoke(ctx, "/api.user.group.v1.GroupService/DeleteGroup", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ type GroupServiceServer interface {
 	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
 	CreateGroup(context.Context, *CreateGroupRequest) (*CreateGroupResponse, error)
 	UpdateGroup(context.Context, *UpdateGroupRequest) (*UpdateGroupResponse, error)
-	DeleteGroup(context.Context, *DeleteGroupRequest) (*response.BaseResponse, error)
+	DeleteGroup(context.Context, *DeleteGroupRequest) (*errors.Error, error)
 	AddGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error)
 	RemoveGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error)
 	mustEmbedUnimplementedGroupServiceServer()
@@ -129,7 +129,7 @@ func (UnimplementedGroupServiceServer) CreateGroup(context.Context, *CreateGroup
 func (UnimplementedGroupServiceServer) UpdateGroup(context.Context, *UpdateGroupRequest) (*UpdateGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroup not implemented")
 }
-func (UnimplementedGroupServiceServer) DeleteGroup(context.Context, *DeleteGroupRequest) (*response.BaseResponse, error) {
+func (UnimplementedGroupServiceServer) DeleteGroup(context.Context, *DeleteGroupRequest) (*errors.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteGroup not implemented")
 }
 func (UnimplementedGroupServiceServer) AddGroupMember(context.Context, *ChangeGroupMemberRequest) (*ChangeGroupMemberResponse, error) {

@@ -303,11 +303,11 @@ func (m *GetFriendResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, GetFriendResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -315,16 +315,16 @@ func (m *GetFriendResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, GetFriendResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return GetFriendResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -576,11 +576,11 @@ func (m *QueryFriendListResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, QueryFriendListResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -588,16 +588,16 @@ func (m *QueryFriendListResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, QueryFriendListResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return QueryFriendListResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -981,11 +981,11 @@ func (m *AddFriendResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, AddFriendResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -993,16 +993,16 @@ func (m *AddFriendResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, AddFriendResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return AddFriendResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1408,11 +1408,11 @@ func (m *GetFriendRequestResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, GetFriendRequestResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1420,16 +1420,16 @@ func (m *GetFriendRequestResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, GetFriendRequestResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return GetFriendRequestResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1693,11 +1693,11 @@ func (m *QueryFriendRequestListResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, QueryFriendRequestListResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1705,16 +1705,16 @@ func (m *QueryFriendRequestListResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, QueryFriendRequestListResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return QueryFriendRequestListResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1986,11 +1986,11 @@ func (m *CheckSendMessageAbilityResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CheckSendMessageAbilityResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1998,16 +1998,16 @@ func (m *CheckSendMessageAbilityResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CheckSendMessageAbilityResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CheckSendMessageAbilityResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

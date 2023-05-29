@@ -487,11 +487,11 @@ func (m *GetGroupResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, GetGroupResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -499,16 +499,16 @@ func (m *GetGroupResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, GetGroupResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return GetGroupResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -753,11 +753,11 @@ func (m *ListGroupsResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ListGroupsResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -765,16 +765,16 @@ func (m *ListGroupsResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ListGroupsResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ListGroupsResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1028,11 +1028,11 @@ func (m *CreateGroupResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CreateGroupResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1040,16 +1040,16 @@ func (m *CreateGroupResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CreateGroupResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateGroupResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1306,11 +1306,11 @@ func (m *UpdateGroupResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, UpdateGroupResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1318,16 +1318,16 @@ func (m *UpdateGroupResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, UpdateGroupResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UpdateGroupResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1678,11 +1678,11 @@ func (m *ChangeGroupMemberResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetResponse()).(type) {
+		switch v := interface{}(m.GetError()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ChangeGroupMemberResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1690,16 +1690,16 @@ func (m *ChangeGroupMemberResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ChangeGroupMemberResponseValidationError{
-					field:  "Response",
+					field:  "Error",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetResponse()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ChangeGroupMemberResponseValidationError{
-				field:  "Response",
+				field:  "Error",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
