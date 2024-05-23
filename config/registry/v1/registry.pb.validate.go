@@ -461,9 +461,18 @@ func (m *Registry) validate(all bool) error {
 		}
 	}
 
-	switch m.Reg.(type) {
-
+	switch v := m.Reg.(type) {
 	case *Registry_Consul:
+		if v == nil {
+			err := RegistryValidationError{
+				field:  "Reg",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
 			switch v := interface{}(m.GetConsul()).(type) {
@@ -495,6 +504,16 @@ func (m *Registry) validate(all bool) error {
 		}
 
 	case *Registry_Etcd:
+		if v == nil {
+			err := RegistryValidationError{
+				field:  "Reg",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
 			switch v := interface{}(m.GetEtcd()).(type) {
@@ -525,6 +544,8 @@ func (m *Registry) validate(all bool) error {
 			}
 		}
 
+	default:
+		_ = v // ensures v is used
 	}
 
 	if len(errors) > 0 {

@@ -52,7 +52,6 @@ message Service {
   Redis redis = 7;
   MQ mq = 8;
   MySQL mysql = 9;
-  HBase hBase = 10;
   // services name
   string gatewayService = 11;
   string userService = 12;
@@ -135,9 +134,4 @@ message MySQL {
       seconds: 10
     }
   }];
-}
-
-message HBase {
-  string addr = 1;
-  // add more
 }

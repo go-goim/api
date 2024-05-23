@@ -584,9 +584,20 @@ func (m *QueryUserRequest) validate(all bool) error {
 
 	var errors []error
 
-	switch m.Field.(type) {
-
+	oneofFieldPresent := false
+	switch v := m.Field.(type) {
 	case *QueryUserRequest_Email:
+		if v == nil {
+			err := QueryUserRequestValidationError{
+				field:  "Field",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofFieldPresent = true
 
 		if err := m._validateEmail(m.GetEmail()); err != nil {
 			err = QueryUserRequestValidationError{
@@ -601,6 +612,17 @@ func (m *QueryUserRequest) validate(all bool) error {
 		}
 
 	case *QueryUserRequest_Phone:
+		if v == nil {
+			err := QueryUserRequestValidationError{
+				field:  "Field",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofFieldPresent = true
 
 		if !_QueryUserRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 			err := QueryUserRequestValidationError{
@@ -614,6 +636,9 @@ func (m *QueryUserRequest) validate(all bool) error {
 		}
 
 	default:
+		_ = v // ensures v is used
+	}
+	if !oneofFieldPresent {
 		err := QueryUserRequestValidationError{
 			field:  "Field",
 			reason: "value is required",
@@ -622,7 +647,6 @@ func (m *QueryUserRequest) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
-
 	}
 
 	if len(errors) > 0 {
@@ -799,9 +823,20 @@ func (m *CreateUserRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	switch m.Field.(type) {
-
+	oneofFieldPresent := false
+	switch v := m.Field.(type) {
 	case *CreateUserRequest_Email:
+		if v == nil {
+			err := CreateUserRequestValidationError{
+				field:  "Field",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofFieldPresent = true
 
 		if err := m._validateEmail(m.GetEmail()); err != nil {
 			err = CreateUserRequestValidationError{
@@ -816,6 +851,17 @@ func (m *CreateUserRequest) validate(all bool) error {
 		}
 
 	case *CreateUserRequest_Phone:
+		if v == nil {
+			err := CreateUserRequestValidationError{
+				field:  "Field",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofFieldPresent = true
 
 		if !_CreateUserRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 			err := CreateUserRequestValidationError{
@@ -829,6 +875,9 @@ func (m *CreateUserRequest) validate(all bool) error {
 		}
 
 	default:
+		_ = v // ensures v is used
+	}
+	if !oneofFieldPresent {
 		err := CreateUserRequestValidationError{
 			field:  "Field",
 			reason: "value is required",
@@ -837,7 +886,6 @@ func (m *CreateUserRequest) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
-
 	}
 
 	if len(errors) > 0 {
@@ -1239,9 +1287,20 @@ func (m *UserLoginRequest) validate(all bool) error {
 
 	// no validation rules for LoginType
 
-	switch m.Field.(type) {
-
+	oneofFieldPresent := false
+	switch v := m.Field.(type) {
 	case *UserLoginRequest_Email:
+		if v == nil {
+			err := UserLoginRequestValidationError{
+				field:  "Field",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofFieldPresent = true
 
 		if err := m._validateEmail(m.GetEmail()); err != nil {
 			err = UserLoginRequestValidationError{
@@ -1256,6 +1315,17 @@ func (m *UserLoginRequest) validate(all bool) error {
 		}
 
 	case *UserLoginRequest_Phone:
+		if v == nil {
+			err := UserLoginRequestValidationError{
+				field:  "Field",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofFieldPresent = true
 
 		if !_UserLoginRequest_Phone_Pattern.MatchString(m.GetPhone()) {
 			err := UserLoginRequestValidationError{
@@ -1269,6 +1339,9 @@ func (m *UserLoginRequest) validate(all bool) error {
 		}
 
 	default:
+		_ = v // ensures v is used
+	}
+	if !oneofFieldPresent {
 		err := UserLoginRequestValidationError{
 			field:  "Field",
 			reason: "value is required",
@@ -1277,7 +1350,6 @@ func (m *UserLoginRequest) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
-
 	}
 
 	if len(errors) > 0 {

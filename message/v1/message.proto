@@ -25,6 +25,11 @@ enum SessionType {
   // 255 at most
 }
 
+enum MessageStatus {
+  Normal = 0;
+  Deleted = 1;
+}
+
 // SendMessageReq receive data from gateway
 message SendMessageReq {
   int64 from = 1 [(validate.rules).int64.gt = 0];
@@ -100,22 +105,18 @@ service OfflineMessageService {
 
 // storage message
 message StorageMessage {
-  string rowKey = 1;
-  message Users {
-    int64 fromID = 1;
-    int64 toID = 2;
-    string sessionID = 3;
-  }
-  Users users = 2;
+  int64 msgID = 1;
+  string sessionID = 2;
+  SessionType session_type = 3;
+  int64 fromID = 4;
+  int64 toID = 5;
   message Content {
     MessageContentType contentType = 1;
     string content = 2;
   }
-  Content content = 3;
-  message Extra {
-    google.protobuf.Timestamp createTime = 1;
-  }
-  Extra extra = 4;
+  Content content = 6;
+  google.protobuf.Timestamp createTime = 7;
+  MessageStatus status = 8;
 }
 
 // HistoryMessage
